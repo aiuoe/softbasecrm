@@ -1,0 +1,162 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Administration' | localize" [description]="'AdministrationCompany' | localize">
+            <div role="actions">
+                <button
+                    class="btn btn-secondary blue"
+                    id="companyCloseBtn"
+                >
+                    {{ l('Close') }}
+                </button>
+            </div>
+        </sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="form">
+                        <form>
+                            <div class="form-body">
+                                <div class="row mb-4">
+                                    <div class="col-lg-12 text-right">
+                                        <button class="btn btn-primary blue" id="companyUpdateBtn">
+                                            <i class="fa fa-check fa-lg"></i>
+                                            {{ l('Update') }}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row align-items-center form-row-header">
+                                    <i class="fa fa-user"></i>
+                                    {{ l('CompanySetup') }}
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('Name') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="companySetupNameInput"
+                                        />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('SubName') | titlecase }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="companySetupSubNameInput"
+                                        />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('Address') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="companySetupAddressInput"
+                                        />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('City') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="companySetupCityInput"
+                                        />
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('StateOnly') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="companySetupStateInput"
+                                        />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('ZipCodeOnly') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="companySetupZipCodeInput"
+                                        />
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <label for="">{{ l('Country') }}</label>
+                                        <p-dropdown
+                                            [options]="countrySelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                            id="companySetupCountryDropdown"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('PhoneNumberSymbol') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="companySetupPhoneNumberInput"
+                                        />
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">{{ l('FaxNumberSymbol') }}</label>
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            id="companySetupFaxNumberInput"
+                                        />
+                                    </div>
+                                    <div class="col-lg-6 mt-8">
+                                        <p-checkbox
+                                            [label]="l('UserPasswordAndUserID')"
+                                            [binary]="true"
+                                            labelStyleClass="mb-0"
+                                            id="companySetupUserPasswordAndUserIDCheckbox"
+                                        ></p-checkbox>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div [class]="containerClass">
+            <tabset class="tab-container tabbable-line">
+                <tab heading="{{ 'Accounting' | localize }}">
+                    <accountingCompanyTab></accountingCompanyTab>
+                </tab>
+                <tab heading="{{ 'CC' | localize }}">
+                    <creditCardCompanyTab></creditCardCompanyTab>
+                </tab>
+                <tab heading="{{ 'SMTP' | localize }}">
+                    <smtpCompanyTab></smtpCompanyTab>
+                </tab>
+                <tab heading="{{ 'Invoicing' | localize }}">
+                    <invoicingCompanyTab></invoicingCompanyTab>
+                </tab>
+                <tab heading="{{ 'Logins' | localize }}">
+                    <loginsCompanyTab></loginsCompanyTab>
+                </tab>
+                <tab heading="{{ 'Marketing' | localize }}">
+                    <marketingCompanyTab></marketingCompanyTab>
+                </tab>
+                <tab heading="{{ 'PrintFields' | localize }}">
+                    <printFieldsCompanyTab></printFieldsCompanyTab>
+                </tab>
+                <tab heading="{{ 'EQComments' | localize }}">
+                    <equipmentCommentsCompanyTab></equipmentCommentsCompanyTab>
+                </tab>
+                <tab heading="{{ 'InvComments' | localize }}">
+                    <invoiceCommentsCompanyTab></invoiceCommentsCompanyTab>
+                </tab>
+                <tab heading="{{ 'Logo' | localize }}">
+                    <logoCompanyTab></logoCompanyTab>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

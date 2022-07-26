@@ -2,28 +2,32 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import * as ApiServiceProxies from './service-proxies';
+import * as ApiReportServiceProxies from './report-service-proxies';
 import { ZeroRefreshTokenService } from '@account/auth/zero-refresh-token.service';
 import { ZeroTemplateHttpConfigurationService } from './zero-template-http-configuration.service';
 
 @NgModule({
     providers: [
-        ApiServiceProxies.CustomerAttachmentsServiceProxy,        
+        ApiReportServiceProxies.LeadsServiceProxy,
+        ApiServiceProxies.CustomerAttachmentsServiceProxy,
         ApiServiceProxies.AccountActivitiesServiceProxy,
-        ApiServiceProxies.ActivitiesServiceProxy,        
-        ApiServiceProxies.ActivitySourceTypesServiceProxy,        
-        ApiServiceProxies.ActivityPrioritiesServiceProxy,        
+        ApiServiceProxies.ActivitiesServiceProxy,
+        ApiServiceProxies.ActivitySourceTypesServiceProxy,
+        ApiServiceProxies.ActivityPrioritiesServiceProxy,
         ApiServiceProxies.AccountUsersServiceProxy,
-        ApiServiceProxies.CountriesServiceProxy,        
-        ApiServiceProxies.ActivityStatusesServiceProxy,        
-        ApiServiceProxies.ActivityTaskTypesServiceProxy,        
-        ApiServiceProxies.OpportunityTypesServiceProxy,        
-        ApiServiceProxies.OpportunityStagesServiceProxy,        
-        ApiServiceProxies.OpportunitiesServiceProxy,        
-        ApiServiceProxies.PrioritiesServiceProxy,        
-        ApiServiceProxies.LeadsServiceProxy,        
-        ApiServiceProxies.LeadStatusesServiceProxy,        
-        ApiServiceProxies.LeadSourcesServiceProxy,        
-        ApiServiceProxies.CustomerServiceProxy,        
+        ApiServiceProxies.BranchesServiceProxy,
+        ApiServiceProxies.ReadCommonShareServiceProxy,
+        ApiServiceProxies.CountriesServiceProxy,
+        ApiServiceProxies.ActivityStatusesServiceProxy,
+        ApiServiceProxies.ActivityTaskTypesServiceProxy,
+        ApiServiceProxies.OpportunityTypesServiceProxy,
+        ApiServiceProxies.OpportunityStagesServiceProxy,
+        ApiServiceProxies.OpportunitiesServiceProxy,
+        ApiServiceProxies.PrioritiesServiceProxy,
+        ApiServiceProxies.LeadsServiceProxy,
+        ApiServiceProxies.LeadStatusesServiceProxy,
+        ApiServiceProxies.LeadSourcesServiceProxy,
+        ApiServiceProxies.CustomerServiceProxy,
         ApiServiceProxies.AuditLogServiceProxy,
         ApiServiceProxies.CachingServiceProxy,
         ApiServiceProxies.ChatServiceProxy,
@@ -71,9 +75,12 @@ import { ZeroTemplateHttpConfigurationService } from './zero-template-http-confi
         ApiServiceProxies.DynamicEntityPropertyValueServiceProxy,
         ApiServiceProxies.TwitterServiceProxy,
         ApiServiceProxies.OpportunitiesDashboardServiceProxy,
+        ApiServiceProxies.BranchesServiceProxy,
+        ApiServiceProxies.CommonSettingsServiceProxy,
+        ApiServiceProxies.ReadCommonShareServiceProxy,
         { provide: RefreshTokenService, useClass: ZeroRefreshTokenService },
         { provide: AbpHttpConfigurationService, useClass: ZeroTemplateHttpConfigurationService },
         { provide: HTTP_INTERCEPTORS, useClass: AbpHttpInterceptor, multi: true },
     ],
 })
-export class ServiceProxyModule {}
+export class ServiceProxyModule { }

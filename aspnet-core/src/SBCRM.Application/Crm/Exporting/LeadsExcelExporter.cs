@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
-using Abp.Runtime.Session;
-using Abp.Timing.Timezone;
 using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
-using NPOI.SS.UserModel;
-using System;
 using System.Linq;
+using Abp.Timing;
 
 namespace SBCRM.Crm.Exporting
 {
@@ -17,16 +14,11 @@ namespace SBCRM.Crm.Exporting
     public class LeadsExcelExporter : NpoiExcelExporterBase, ILeadsExcelExporter
     {
 
-        private readonly ITimeZoneConverter _timeZoneConverter;
-        private readonly IAbpSession _abpSession;
-
         /// <summary>
         /// Base constructor
         /// </summary>
         /// <param name="tempFileCacheManager"></param>
         public LeadsExcelExporter(
-            ITimeZoneConverter timeZoneConverter,
-            IAbpSession abpSession,
             ITempFileCacheManager tempFileCacheManager) :
             base(tempFileCacheManager)
         {
@@ -39,13 +31,11 @@ namespace SBCRM.Crm.Exporting
         /// <returns></returns>
         public FileDto ExportToFile(List<GetLeadForViewDto> leads)
         {
-
             return CreateExcelPackage(
-                "Leads_" + (DateTime.UtcNow.Date).ToString("MM/dd/yyyy") + ".xlsx",
+                $"Leads_{Clock.Now:MM_dd_yyyy}.xlsx",
                 excelPackage =>
                 {
                     var sheet = excelPackage.CreateSheet(L("Leads"));
-                 
                     AddHeader(
                         sheet,
                         L("CompanyName"),
@@ -56,7 +46,6 @@ namespace SBCRM.Crm.Exporting
                         L("CreationTime"),
                         (L("Priority"))
                         );
-
                     AddObjects(
                         sheet, leads,
                         _ => _.Lead.CompanyName,

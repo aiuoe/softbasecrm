@@ -1,14 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props"></Import>
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>SBCRM</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Abp.Web.Common" Version="6.5.0" />
-    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
+    <PackageReference Include="Abp.Web.Common" Version="7.3.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
+    <PackageReference Include="System.Text.Json" Version="4.6.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SBCRM.Core.Shared\SBCRM.Core.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\Accounting\ChartOfAccounts\Service\" />
+    <Folder Include="Modules\Administration\Branch\Service\" />
+  </ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<NoWarn>1701,1702,1591,1572,1573,1570</NoWarn>
+	</PropertyGroup>
 </Project>

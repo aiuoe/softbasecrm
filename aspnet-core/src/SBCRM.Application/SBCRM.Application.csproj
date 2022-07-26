@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props"></Import>
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <AssemblyName>SBCRM.Application</AssemblyName>
     <PackageId>SBCRM.Application</PackageId>
@@ -15,8 +15,10 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Abp.EntityFrameworkCore.EFPlus" Version="6.5.0" />
+    <PackageReference Include="Abp.EntityFrameworkCore.EFPlus" Version="7.3.0" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="NPOI" Version="2.5.4" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SBCRM.Application.Shared\SBCRM.Application.Shared.csproj" />
@@ -24,4 +26,12 @@
     <ProjectReference Include="..\SBCRM.EntityFrameworkCore\SBCRM.EntityFrameworkCore.csproj" />
     <ProjectReference Include="..\SBCRM.Infrastructure\SBCRM.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules\Accounting\ChartOfAccounts\Commands\" />
+    <Folder Include="Modules\Accounting\ChartOfAccounts\Services\" />
+    <Folder Include="Modules\Common\Avalara\Commands\" />
+  </ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<NoWarn>1701,1702,1591,1572,1573,1570</NoWarn>
+	</PropertyGroup>
 </Project>

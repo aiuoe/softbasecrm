@@ -10,7 +10,7 @@ import {
     LeadLeadStatusLookupTableDto,
     LeadPriorityLookupTableDto,
     LeadUserUserLookupTableDto,
-    GetLeadForViewDto
+    GetLeadForViewDto,
 } from '@shared/service-proxies/service-proxies';
 import { NotifyService, TokenService } from 'abp-ng2-module';
 import { AppComponentBase } from '@shared/common/app-component-base';
@@ -166,7 +166,6 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
     */
     delaySearchLeads = debounce(this.getLeads, AppConsts.SearchBarDelayMilliseconds);
 
-
     /***
      * Get leads on page load/filter changes
      * @param event
@@ -246,7 +245,7 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
      */
     exportToExcel(): void {
 
-        this.timeZone =  this._dateTimeService.getLocalTimeZone(); 
+        this.timeZone = this._dateTimeService.getLocalTimeZone();
 
         this._leadsServiceProxy
             .getLeadsToExcel(
@@ -348,9 +347,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     /**
    * Opens modal to create an activity given an activity type for Schedule Call
-   * @param activityType 
+   * @param activityType
    */
-    createActivityScheduleCallHandler(idLeadToStore: string){
+    createActivityScheduleCallHandler(idLeadToStore: string) {
         this.idLeadToStore = idLeadToStore
         // Open modal
         this.createActivityModal.show(ActivityTaskType.SCHEDULE_CALL);
@@ -358,9 +357,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     /**
      * Opens modal to create an activity given an activity type - for Schedule Meeting
-     * @param activityType 
+     * @param activityType
      */
-    createActivityScheduleMeetingHandler(idLeadToStore: string){
+    createActivityScheduleMeetingHandler(idLeadToStore: string) {
         this.idLeadToStore = idLeadToStore
         // Open modal
         this.createActivityModal.show(ActivityTaskType.SCHEDULE_MEETING);
@@ -368,9 +367,9 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     /**
      * Opens modal to create an activity given an activity type - for Email Reminder
-     * @param activityType 
+     * @param activityType
      */
-    createActivityEmailReminderHandler(idLeadToStore: string){
+    createActivityEmailReminderHandler(idLeadToStore: string) {
         this.idLeadToStore = idLeadToStore
         // Open modal
         this.createActivityModal.show(ActivityTaskType.EMAIL_REMINDER);
@@ -378,11 +377,13 @@ export class LeadsComponent extends AppComponentBase implements OnInit {
 
     /**
      * Opens modal to create an activity given an activity type - for To-Do Reminder
-     * @param activityType 
+     * @param activityType
      */
-    createActivityToDoReminderHandler(idLeadToStore: string){
+    createActivityToDoReminderHandler(idLeadToStore: string) {
         this.idLeadToStore = idLeadToStore
         // Open modal
         this.createActivityModal.show(ActivityTaskType.TODO_REMINDER);
     }
+
+
 }

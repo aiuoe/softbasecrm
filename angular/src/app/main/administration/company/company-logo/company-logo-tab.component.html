@@ -1,0 +1,42 @@
+<div class="card card-custom gutter-b">
+    <div class="card-body">
+        <div class="form">
+            <form>
+                <div class="form-body">
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('LogoGraphicFile') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLogoGraphicFileInput"
+                            />
+                        </div>
+                        <div class="col-lg-3 mt-8">
+                            <p-checkbox
+                                [label]="l('UseGraphic')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLogoUseGraphicCheckbox"
+                            ></p-checkbox>
+                        </div>
+                        <div class="col-lg-3 text-right mt-8">
+                            <button class="btn btn-primary blue" id="companyLogoClearBtn">
+                                <i class="fa fa-eraser fa-lg"></i>
+                                {{ l('Clear') }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mb-4 mt-20">
+                        <div class="col-lg-3">
+                            <img [src]="logo" class="w-100" />
+                        </div>
+                    </div>
+                </div>
+            </form> 
+        </div>
+        <div class="mt-30">
+            <p class="font-italic">{{ l('ChangedBy') }}: Adam Madsen on 04/25/2022 11:00:29 PM</p>
+        </div>
+    </div>
+</div>

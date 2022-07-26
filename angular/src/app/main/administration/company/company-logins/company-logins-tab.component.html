@@ -1,0 +1,231 @@
+<div class="card card-custom gutter-b">
+    <div class="card-body">
+        <div class="form">
+            <form>
+                <div class="form-body">
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('EliftUserName') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsEliftUserNameInput"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('EliftPassword') }}</label>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="companyLoginsEliftPasswordInput"
+                                />
+                                <div class="ml-3">
+                                    <p-checkbox
+                                        [label]="l('Test')"
+                                        [binary]="true"
+                                        labelStyleClass="mb-0"
+                                        id="companyLoginsTestCheckbox"
+                                    ></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-3">
+                            <label for="">{{ l('PartsDealerNumberSymbol') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsPartsDealerNumberInput"
+                            />
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="">{{ l('SMHDealerNumberSymbol') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsSMHDealerNumberInput"
+                            />
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="">{{ l('IntrupaNumberSymbol') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsIntrupaNumberInput"
+                            />
+                        </div>
+                        <div class="col-lg-3">
+                            <label for="">{{ l('ErentKey') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsErentKeyInput"
+                            />
+                        </div>
+                    </div>
+                    <div class="row align-items-center form-row-header mt-15">
+                        <i class="fa fa-user"></i>
+                        {{ l('BillTrust') }}
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('Host') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsHostInput"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('UserName') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsUserNameInput"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('Password') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsPasswordInput"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('Port') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsPortInput"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('StatementDay') }}</label>
+                            <div class="input-group">
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="companyLoginsStatementDayInput"
+                                />
+                                <div class="ml-3">
+                                    <p-checkbox
+                                        [label]="l('LastDay')"
+                                        [binary]="true"
+                                        labelStyleClass="mb-0"
+                                        id="companyLoginsLastDayCheckbox"
+                                    ></p-checkbox>
+                                </div>
+                                <div class="ml-3">
+                                    <p-checkbox
+                                        [label]="l('ExcludeNoInvoices')"
+                                        [binary]="true"
+                                        labelStyleClass="mb-0"
+                                        id="companyLoginsExcludeInvoicesCheckbox"
+                                    ></p-checkbox>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('Company') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyLoginsCompanyInput"
+                            />
+                        </div>
+                    </div>
+                    <div class="row align-items-center form-row-header mt-15">
+                        <i class="fa fa-user"></i>
+                        {{ l('ARTermsToExclude') }}
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('COD')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsCODCheckbox"
+                            ></p-checkbox>
+                        </div>
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('CreditCard')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsCreditCardCheckbox"
+                            ></p-checkbox>
+                        </div>
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('DueNow')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsDueNowCheckbox"
+                            ></p-checkbox>
+                        </div>
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('Net10')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsNet10Checkbox"
+                            ></p-checkbox>
+                        </div>
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('Net15')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsNet15Checkbox"
+                            ></p-checkbox>
+                        </div>
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('Net30')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsNet30Checkbox"
+                            ></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('NetDue')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsNetDueCheckbox"
+                            ></p-checkbox>
+                        </div>
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('PMTerms')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsPMTermsCheckbox"
+                            ></p-checkbox>
+                        </div>
+                        <div class="col-lg-2">
+                            <p-checkbox
+                                [label]="l('Prospect')"
+                                [binary]="true"
+                                labelStyleClass="mb-0"
+                                id="companyLoginsProspectCheckbox"
+                            ></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </form> 
+        </div>
+        <div class="mt-30">
+            <p class="font-italic">{{ l('ChangedBy') }}: Adam Madsen on 04/25/2022 11:00:29 PM</p>
+        </div>
+    </div>
+</div>

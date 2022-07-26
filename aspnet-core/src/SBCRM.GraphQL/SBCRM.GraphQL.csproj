@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <Import Project="..\..\common.props"></Import>
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <RootNamespace>SBCRM</RootNamespace>
   </PropertyGroup>
@@ -11,10 +11,13 @@
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore" Version="4.3.0" />
     <PackageReference Include="GraphQL.Server.Transports.AspNetCore.NewtonsoftJson" Version="4.3.0" />
     <PackageReference Include="GraphQL.Server.Ui.Playground" Version="4.3.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SBCRM.Application.Shared\SBCRM.Application.Shared.csproj" />
     <ProjectReference Include="..\SBCRM.Core\SBCRM.Core.csproj" />
   </ItemGroup>
+	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+		<NoWarn>1701,1702,1591,1572,1573,1570</NoWarn>
+	</PropertyGroup>
 </Project>

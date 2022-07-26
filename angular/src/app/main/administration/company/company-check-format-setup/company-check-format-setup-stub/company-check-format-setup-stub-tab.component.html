@@ -1,0 +1,268 @@
+<div>
+    <div class="row align-items-center form-row-header">
+        {{ l('CoName') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubCoNameTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubCoNameLeftInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="coNameFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupStubCoNameFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="coNameSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupStubCoNameSizeDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupStubCoNameBoldCheckbox"
+            ></p-checkbox><i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupStubCoNameItalicCheckbox"
+            ></p-checkbox><i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupStubCoNamePrintCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Vendor') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubVendorTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubVendorLeftInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="vendorFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupStubVendorFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="vendorSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupStubVendorSizeDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupStubVendorBoldCheckbox"
+            ></p-checkbox><i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupStubVendorItalicCheckbox"
+            ></p-checkbox><i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupStubVendorPrintCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Summary') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubSummaryTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubSummaryLeftInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="summaryFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupStubSummaryFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="summarySizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupStubSummarySizeDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupStubSummaryBoldCheckbox"
+            ></p-checkbox><i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupStubSummaryItalicCheckbox"
+            ></p-checkbox><i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupStubSummaryPrintCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Date') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubDateTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubDateLeftInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="dateFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupStubDateFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="dateSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupStubDateSizeDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupStubDateBoldCheckbox"
+            ></p-checkbox><i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupStubDateItalicCheckbox"
+            ></p-checkbox><i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupStubDatePrintCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('InvoiceNumberSymbol') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubInvoiceNumberTopInput"
+            />
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupStubInvoiceNumberCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Amount') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupStubAmountTopInput"
+            />
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupStubAmountCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+</div>

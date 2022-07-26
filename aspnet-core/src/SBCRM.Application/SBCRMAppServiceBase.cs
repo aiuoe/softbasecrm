@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Abp.Application.Services;
+using Abp.Domain.Entities;
+using Abp.Domain.Entities.Auditing;
 using Abp.IdentityFramework;
 using Abp.Runtime.Session;
 using Abp.Threading;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SBCRM.Authorization.Users;
+using SBCRM.Modules.Common.Dto;
 using SBCRM.MultiTenancy;
 
 namespace SBCRM
@@ -26,13 +31,14 @@ namespace SBCRM
 
         protected virtual int? GetTenantId()
         {
+            return AbpSession?.TenantId;
+        }
+
+        protected virtual void SetTenant(IMustHaveTenant entity)
+        {
             if (SBCRMConsts.MultiTenancyEnabled)
             {
-                return AbpSession?.TenantId;
-            }
-            else
-            {
-                return null;
+                entity.TenantId = GetTenantId().Value;
             }
         }
 
@@ -71,6 +77,22 @@ namespace SBCRM
         protected virtual void CheckErrors(IdentityResult identityResult)
         {
             identityResult.CheckErrors(LocalizationManager);
+        }
+
+        /// <summary>
+        /// Set the user's full name into the entity DTO's audit fields
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="entityDto"></param>
+        /// <returns></returns>
+        protected async Task SetAuditUsers(FullAuditedEntity<long> entity, AuditDto entityDto)
+        {
+            var auditUsers = await UserManager.Users
+                .Where(x => x.Id == entity.CreatorUserId || x.Id == entity.LastModifierUserId)
+                .ToListAsync();
+
+            entityDto.CreatorUserName = auditUsers.FirstOrDefault(x => x.Id == entity.CreatorUserId)?.FullName;
+            entityDto.LastModifierUserName = auditUsers.FirstOrDefault(x => x.Id == entity.LastModifierUserId)?.FullName;
         }
     }
 }

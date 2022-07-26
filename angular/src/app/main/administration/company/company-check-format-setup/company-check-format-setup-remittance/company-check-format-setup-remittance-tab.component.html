@@ -1,0 +1,344 @@
+<div>
+    <div class="row align-items-center form-row-header">
+        {{ l('InvoiceNumberSymbol') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceInvoiceNumberAmountTopInput"
+            />
+        </div>
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceInvoiceNumberAmountLeftInput"
+            />
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupRemittanceInvoiceNumberPrintCheckbox"
+            ></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('InvoiceDate') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceInvoiceDateAmountTopInput"
+            />
+        </div>
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceInvoiceDateAmountLeftInput"
+            />
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupRemittanceInvoiceDatePrintCheckbox"
+            ></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Discount') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceDiscountAmountTopInput"
+            />
+        </div>
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceDiscountAmountLeftInput"
+            />
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupRemittanceDiscountPrintCheckbox"
+            ></p-checkbox> <i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('Amount') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceAmountTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceAmountLeftInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="amountFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceAmountFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="amountSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceAmountSizeDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupRemittanceAmountBoldCheckbox"
+            ></p-checkbox><i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupRemittanceAmountItalicCheckbox"
+            ></p-checkbox><i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupRemittanceAmountPrintCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('RemitBottom') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-4">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceRemitBottomTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="remitBottomFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceRemitBottomFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="remitBottomSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceRemitBottomSizeDropdown"
+            ></p-dropdown>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('SumCheckNumberSymbol') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceSumCheckNumberTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceSumCheckNumberLeftInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="sumCheckNumberFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceSumCheckNumberFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="sumCheckNumberSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceSumCheckNumberSizeDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupRemittanceSumCheckNumberBoldCheckbox"
+            ></p-checkbox><i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupRemittanceSumCheckNumberItalicCheckbox"
+            ></p-checkbox><i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupRemittanceSumCheckNumberPrintCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('SumDate') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceSumDateTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceSumDateLeftInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="sumDateFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceSumDateFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="sumDateSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceSumDateSizeDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupRemittanceSumDateBoldCheckbox"
+            ></p-checkbox><i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupRemittanceSumDateItalicCheckbox"
+            ></p-checkbox><i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupRemittanceSumDatePrintCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+    <div class="row align-items-center form-row-header">
+        {{ l('SumAmount') }}
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountTop') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceSumAmountTopInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('AmountLeft') }}</label>
+            <input
+                type="text"
+                class="form-control"
+                id="companyCheckFormatSetupRemittanceSumAmountLeftInput"
+            />
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Font') }}</label>
+            <p-dropdown
+                [options]="sumAmountFontSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceSumAmountFontDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-2">
+            <label for="">{{ l('Size') }}</label>
+            <p-dropdown
+                [options]="sumAmountSizeSelectItems"
+                [virtualScroll]="true"
+                [itemSize]="30"
+                [style]="{ width: '100%' }"
+                id="companyCheckFormatSetupRemittanceSumAmountSizeDropdown"
+            ></p-dropdown>
+        </div>
+        <div class="col-lg-4 mt-8 checkbox-icon-label">
+            <p-checkbox
+                [binary]="true"
+                id="companyCheckFormatSetupRemittanceSumAmountBoldCheckbox"
+            ></p-checkbox><i class="fa fa-bold fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupRemittanceSumAmountItalicCheckbox"
+            ></p-checkbox><i class="fa fa-italic fa-lg ml-3"></i>
+            <p-checkbox
+                [binary]="true"
+                class="ml-8"
+                id="companyCheckFormatSetupRemittanceSumAmountPrintCheckbox"
+            ></p-checkbox><i class="fa fa-print fa-lg ml-3"></i>
+        </div>
+    </div>
+</div>

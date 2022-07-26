@@ -1,6 +1,4 @@
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +13,11 @@ using SBCRM.Authorization.Users.Profile;
 using SBCRM.Authorization.Users.Profile.Dto;
 using SBCRM.Dto;
 using SBCRM.Storage;
-using SBCRM.Web.Helpers;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Gif;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Formats.Png;
 
 namespace SBCRM.Web.Controllers
 {
@@ -48,7 +50,8 @@ namespace SBCRM.Web.Controllers
 
                 if (profilePictureFile.Length > MaxProfilePictureSize)
                 {
-                    throw new UserFriendlyException(L("ProfilePicture_Warn_SizeLimit", AppConsts.MaxProfilPictureBytesUserFriendlyValue));
+                    throw new UserFriendlyException(L("ProfilePicture_Warn_SizeLimit",
+                        AppConsts.MaxProfilePictureBytesUserFriendlyValue));
                 }
 
                 byte[] fileBytes;
@@ -57,22 +60,22 @@ namespace SBCRM.Web.Controllers
                     fileBytes = stream.GetAllBytes();
                 }
 
-                if (!ImageFormatHelper.GetRawImageFormat(fileBytes).IsIn(ImageFormat.Jpeg, ImageFormat.Png, ImageFormat.Gif))
+                using (var image = Image.Load(fileBytes, out IImageFormat format))
                 {
-                    throw new Exception(L("IncorrectImageFormat"));
-                }
+                    if (!format.IsIn(JpegFormat.Instance, PngFormat.Instance, GifFormat.Instance))
+                    {
+                        throw new UserFriendlyException(L("IncorrectImageFormat"));
+                    }
 
-                _tempFileCacheManager.SetFile(input.FileToken, fileBytes);
+                    _tempFileCacheManager.SetFile(input.FileToken, fileBytes);
 
-                using (var bmpImage = new Bitmap(new MemoryStream(fileBytes)))
-                {
                     return new UploadProfilePictureOutput
                     {
                         FileToken = input.FileToken,
                         FileName = input.FileName,
                         FileType = input.FileType,
-                        Width = bmpImage.Width,
-                        Height = bmpImage.Height
+                        Width = image.Width,
+                        Height = image.Height
                     };
                 }
             }

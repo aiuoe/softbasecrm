@@ -1,6 +1,7 @@
 export class AppConsts {
     static readonly tenancyNamePlaceHolderInUrl = '{TENANCY_NAME}';
 
+    static remoteReportServiceBaseUrl: string;
     static remoteServiceBaseUrl: string;
     static remoteServiceBaseUrlFormat: string;
     static appBaseUrl: string;
@@ -44,7 +45,7 @@ export class AppConsts {
     static readonly Lead = 'Lead';
     static readonly ViewMode = 'view';
     static readonly CreateOrEditMode = 'createoredit';
-
+    static readonly ValidEmailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     static readonly activityModule = {
         noAssignedUserFilterId: -1,
     };

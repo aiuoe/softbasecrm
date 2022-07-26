@@ -8,6 +8,26 @@ import { RouterModule } from '@angular/router';
                 path: '',
                 children: [
                     {
+                        path: 'administration/company',
+                        loadChildren: () => import('./administration/company/company.module').then(m => m.CompanyModule),
+                        // data: { permission: 'Pages.ActivityStatuses' }
+                    },
+                    {
+                        path: 'administration/saleCodes',
+                        loadChildren: () => import('./administration/sale-codes/sale-codes.module').then(m => m.SaleCodesModule),
+                        // data: { permission: 'Pages.ActivityStatuses' }
+                    },
+                    {
+                        path: 'administration/branch',
+                        loadChildren: () => import('./administration/branch/branch.module').then(m => m.BranchModule),
+                        data: { permission: 'Pages.Branches' }
+                    },
+                    {
+                        path: 'administration/taxCodes',
+                        loadChildren: () => import('./administration/tax-codes/tax-codes.module').then(m => m.TaxCodesModule),
+                        data: { permission: 'Pages.Administration' }
+                    },
+                    {
                         path: 'crm/activityStatuses',
                         loadChildren: () => import('./crm/activityStatuses/activityStatus.module').then(m => m.ActivityStatusModule),
                         data: { permission: 'Pages.ActivityStatuses' }
@@ -131,12 +151,7 @@ import { RouterModule } from '@angular/router';
                         path: 'crm/priorities',
                         loadChildren: () => import('./crm/priorities/priority.module').then(m => m.PriorityModule),
                         data: { permission: 'Pages.Priorities' }
-                    },
-                    {
-                        path: 'crm/leads',
-                        loadChildren: () => import('./crm/leads/lead.module').then(m => m.LeadModule),
-                        data: { permission: 'Pages.Leads' }
-                    },
+                    },                 
                     {
                         path: 'crm/accounts',
                         loadChildren: () => import('./legacy/customer/customer.module').then(m => m.CustomerModule),
@@ -151,6 +166,11 @@ import { RouterModule } from '@angular/router';
                         path: 'global-search',
                         loadChildren: () => import('./crm/globalSearch/global-search.module').then((m) => m.GlobalSearchModule),
                         data: { permission: 'Pages.GlobalSearch' },
+                    },
+                    {
+                        path: 'administration/department',
+                        loadChildren: () => import('./administration/department/department.module').then((m) => m.DepartmentModule),
+                        data: { permission: 'Pages.Administration.Tenant.Department' },
                     },
                     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
                     { path: '**', redirectTo: 'dashboard' },

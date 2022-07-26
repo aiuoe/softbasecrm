@@ -9,8 +9,10 @@ using Abp.Modules;
 using Abp.Net.Mail;
 using Abp.TestBase;
 using Abp.Zero.Configuration;
+using Azure.Storage.Blobs;
 using Castle.MicroKernel.Registration;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using SBCRM.Authorization.Users;
 using SBCRM.Configuration;
 using SBCRM.EntityFrameworkCore;
@@ -23,6 +25,9 @@ using SBCRM.Test.Base.Web;
 using SBCRM.UiCustomization;
 using SBCRM.Url;
 using NSubstitute;
+using SBCRM.Blob;
+using SBCRM.Blob.Dto;
+using SBCRM.Infrastructure.BlobStorage;
 
 namespace SBCRM.Test.Base
 {
@@ -46,9 +51,6 @@ namespace SBCRM.Test.Base
             Configuration.UnitOfWork.Timeout = TimeSpan.FromMinutes(30);
             Configuration.UnitOfWork.IsTransactional = false;
 
-            //Disable static mapper usage since it breaks unit tests (see https://github.com/aspnetboilerplate/aspnetboilerplate/issues/2052)
-            Configuration.Modules.AbpAutoMapper().UseStaticMapper = false;
-
             //Use database for language management
             Configuration.Modules.Zero().LanguageManagement.EnableDbLocalization();
 
@@ -61,6 +63,26 @@ namespace SBCRM.Test.Base
             Configuration.ReplaceService<IAppConfigurationAccessor, TestAppConfigurationAccessor>();
             Configuration.ReplaceService<IEmailSender, NullEmailSender>(DependencyLifeStyle.Transient);
             Configuration.ReplaceService<IUiThemeCustomizerFactory, NullUiThemeCustomizerFactory>();
+            
+            IocManager.IocContainer.Register(
+                Component.For<BlobServiceClient>()
+                    .UsingFactoryMethod(() =>  new BlobServiceClient(configuration["AzureStorage:ConnectionString"]))
+                    .LifestyleSingleton()
+                );
+
+            var azureSettings = new AzureStorageSettings
+            {
+                ContainerName = configuration["AzureStorage:ContainerName"],
+                RootDirectory = configuration["AzureStorage:RootDirectory"]
+            };
+            IocManager.IocContainer.Register(
+                Component.For<IOptions<AzureStorageSettings>>()
+                    .Instance(Options.Create(azureSettings))
+                    .LifestyleSingleton()
+            );
+
+            IocManager.Register<IBlobStorageService, AzureBlobStorageService>();
+            IocManager.Register<IApplicationStorageService, ApplicationStorageService>();
 
             Configuration.Modules.AspNetZero().LicenseCode = configuration["AbpZeroLicenseCode"];
 

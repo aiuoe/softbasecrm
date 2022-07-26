@@ -4518,6 +4518,81 @@ export class ARTermsServiceProxy {
 }
 
 @Injectable()
+export class ARTermsQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: ARTermsQuery | undefined): Observable<ARTermDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/ARTermsQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<ARTermDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ARTermDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<ARTermDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ARTermDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ARTermDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class AuditEventsServiceServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -5261,6 +5336,711 @@ export class AuditLogServiceProxy {
 }
 
 @Injectable()
+export class BranchesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getAll(): Observable<BranchListItemDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetAll";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAll(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAll(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchListItemDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchListItemDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAll(response: HttpResponseBase): Observable<BranchListItemDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(BranchListItemDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchListItemDto[]>(<any>null);
+    }
+
+    /**
+     * @param filter (optional) 
+     * @param sorting (optional) 
+     * @param maxResultCount (optional) 
+     * @param skipCount (optional) 
+     * @return Success
+     */
+    getAllPaged(filter: string | undefined, sorting: string | undefined, maxResultCount: number | undefined, skipCount: number | undefined): Observable<PagedResultDtoOfBranchListItemDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetAllPaged?";
+        if (filter === null)
+            throw new Error("The parameter 'filter' cannot be null.");
+        else if (filter !== undefined)
+            url_ += "Filter=" + encodeURIComponent("" + filter) + "&";
+        if (sorting === null)
+            throw new Error("The parameter 'sorting' cannot be null.");
+        else if (sorting !== undefined)
+            url_ += "Sorting=" + encodeURIComponent("" + sorting) + "&";
+        if (maxResultCount === null)
+            throw new Error("The parameter 'maxResultCount' cannot be null.");
+        else if (maxResultCount !== undefined)
+            url_ += "MaxResultCount=" + encodeURIComponent("" + maxResultCount) + "&";
+        if (skipCount === null)
+            throw new Error("The parameter 'skipCount' cannot be null.");
+        else if (skipCount !== undefined)
+            url_ += "SkipCount=" + encodeURIComponent("" + skipCount) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllPaged(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllPaged(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfBranchListItemDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfBranchListItemDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllPaged(response: HttpResponseBase): Observable<PagedResultDtoOfBranchListItemDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfBranchListItemDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfBranchListItemDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    get(id: number): Observable<UpsertBranchDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/Get/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGet(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGet(<any>response_);
+                } catch (e) {
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGet(response: HttpResponseBase): Observable<UpsertBranchDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UpsertBranchDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UpsertBranchDto>(<any>null);
+    }
+
+    /**
+     * @param upsertBranchDto (optional) 
+     * @param file (optional) 
+     * @return Success
+     */
+    create(upsertBranchDto: UpsertBranchDto2 | undefined, file: FileParameter | undefined): Observable<UpsertBranchDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (upsertBranchDto === null || upsertBranchDto === undefined)
+            throw new Error("The parameter 'upsertBranchDto' cannot be null.");
+        else
+            content_.append("UpsertBranchDto", JSON.stringify(upsertBranchDto));
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<UpsertBranchDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UpsertBranchDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UpsertBranchDto>(<any>null);
+    }
+
+    /**
+     * @param upsertBranchDto (optional) 
+     * @param file (optional) 
+     * @return Success
+     */
+    update(id: number, upsertBranchDto: UpsertBranchDto3 | undefined, file: FileParameter | undefined): Observable<UpsertBranchDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/Update/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = new FormData();
+        if (upsertBranchDto === null || upsertBranchDto === undefined)
+            throw new Error("The parameter 'upsertBranchDto' cannot be null.");
+        else
+            content_.append("UpsertBranchDto", JSON.stringify(upsertBranchDto));
+        if (file === null || file === undefined)
+            throw new Error("The parameter 'file' cannot be null.");
+        else
+            content_.append("File", file.data, file.fileName ? file.fileName : "File");
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdate(<any>response_);
+                } catch (e) {
+                    return <Observable<UpsertBranchDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<UpsertBranchDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdate(response: HttpResponseBase): Observable<UpsertBranchDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = UpsertBranchDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<UpsertBranchDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    delete(id: number): Observable<void> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/Delete/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDelete(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDelete(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDelete(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getBranchCurrencyType(id: number, currencyTypeId: number): Observable<BranchCurrencyTypeDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetBranchCurrencyType/{id}/{currencyTypeId}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (currencyTypeId === undefined || currencyTypeId === null)
+            throw new Error("The parameter 'currencyTypeId' must be defined.");
+        url_ = url_.replace("{currencyTypeId}", encodeURIComponent("" + currencyTypeId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetBranchCurrencyType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetBranchCurrencyType(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetBranchCurrencyType(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchCurrencyTypeDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    patchBranchCurrencyType(id: number, currencyTypeId: number, body: PatchBranchCurrencyTypeCommand | undefined): Observable<BranchCurrencyTypeDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/PatchBranchCurrencyType/{id}/{currencyTypeId}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        if (currencyTypeId === undefined || currencyTypeId === null)
+            throw new Error("The parameter 'currencyTypeId' must be defined.");
+        url_ = url_.replace("{currencyTypeId}", encodeURIComponent("" + currencyTypeId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processPatchBranchCurrencyType(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processPatchBranchCurrencyType(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchCurrencyTypeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processPatchBranchCurrencyType(response: HttpResponseBase): Observable<BranchCurrencyTypeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = BranchCurrencyTypeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchCurrencyTypeDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getInitialData(): Observable<GetBranchInitialDataDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetInitialData";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetInitialData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetInitialData(<any>response_);
+                } catch (e) {
+                    return <Observable<GetBranchInitialDataDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetBranchInitialDataDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetInitialData(response: HttpResponseBase): Observable<GetBranchInitialDataDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetBranchInitialDataDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetBranchInitialDataDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getTaxTabInitialData(): Observable<GetTaxTabInitialDataDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetTaxTabInitialData";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTaxTabInitialData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaxTabInitialData(<any>response_);
+                } catch (e) {
+                    return <Observable<GetTaxTabInitialDataDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetTaxTabInitialDataDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTaxTabInitialData(response: HttpResponseBase): Observable<GetTaxTabInitialDataDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetTaxTabInitialDataDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetTaxTabInitialDataDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getChartOfAccountDetails(accountNo: string): Observable<GetChartOfAccountDetailsDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetChartOfAccountDetails/{accountNo}";
+        if (accountNo === undefined || accountNo === null)
+            throw new Error("The parameter 'accountNo' must be defined.");
+        url_ = url_.replace("{accountNo}", encodeURIComponent("" + accountNo));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetChartOfAccountDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetChartOfAccountDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetChartOfAccountDetails(response: HttpResponseBase): Observable<GetChartOfAccountDetailsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetChartOfAccountDetailsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetChartOfAccountDetailsDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getZipCodeDetails(zipCode: string): Observable<GetZipCodeDetailsDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Branches/GetZipCodeDetails/{zipCode}";
+        if (zipCode === undefined || zipCode === null)
+            throw new Error("The parameter 'zipCode' must be defined.");
+        url_ = url_.replace("{zipCode}", encodeURIComponent("" + zipCode));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetZipCodeDetails(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetZipCodeDetails(<any>response_);
+                } catch (e) {
+                    return <Observable<GetZipCodeDetailsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetZipCodeDetailsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetZipCodeDetails(response: HttpResponseBase): Observable<GetZipCodeDetailsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetZipCodeDetailsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetZipCodeDetailsDto>(<any>null);
+    }
+}
+
+@Injectable()
 export class CachingServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -5775,6 +6555,253 @@ export class CommonLookupServiceProxy {
             }));
         }
         return _observableOf<GetDefaultEditionNameOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class CommonSettingsServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateTenantLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateTenantLevelSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateTenantLevelSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateTenantLevelSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateTenantLevelSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateUserLevelSettings(body: UpdateCommonSettingsInput | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/CommonSettings/UpdateUserLevelSettings";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+            })
+        };
+
+        return this.http.request("put", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateUserLevelSettings(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateUserLevelSettings(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateUserLevelSettings(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class CompaniesServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getCompaniesData(): Observable<GetCompanyDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Companies/GetCompaniesData";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetCompaniesData(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetCompaniesData(<any>response_);
+                } catch (e) {
+                    return <Observable<GetCompanyDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetCompanyDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetCompaniesData(response: HttpResponseBase): Observable<GetCompanyDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetCompanyDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetCompanyDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getZipCodeInfo(zipCode: string): Observable<GetZipCodeDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Companies/GetZipCodeInfo/{zipCode}";
+        if (zipCode === undefined || zipCode === null)
+            throw new Error("The parameter 'zipCode' must be defined.");
+        url_ = url_.replace("{zipCode}", encodeURIComponent("" + zipCode));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetZipCodeInfo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetZipCodeInfo(<any>response_);
+                } catch (e) {
+                    return <Observable<GetZipCodeDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetZipCodeDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetZipCodeInfo(response: HttpResponseBase): Observable<GetZipCodeDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetZipCodeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetZipCodeDto[]>(<any>null);
     }
 }
 
@@ -6575,6 +7602,142 @@ export class CountriesServiceProxy {
             }));
         }
         return _observableOf<FileDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class CreateAdditionalChargesCommandHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: CreateAdditionalChargesCommand | undefined): Observable<CreatedAdditionalChargeResponseDto> {
+        let url_ = this.baseUrl + "/api/services/app/CreateAdditionalChargesCommandHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<CreatedAdditionalChargeResponseDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreatedAdditionalChargeResponseDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<CreatedAdditionalChargeResponseDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CreatedAdditionalChargeResponseDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreatedAdditionalChargeResponseDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class CreateCompanyCommandHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: CreateCompanyCommand | undefined): Observable<GetCompanyForEditDto> {
+        let url_ = this.baseUrl + "/api/services/app/CreateCompanyCommandHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<GetCompanyForEditDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetCompanyForEditDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<GetCompanyForEditDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetCompanyForEditDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetCompanyForEditDto>(<any>null);
     }
 }
 
@@ -8654,6 +9817,74 @@ export class DashboardCustomizationServiceProxy {
 }
 
 @Injectable()
+export class DeleteAdditionalChargesCommandHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: DeleteAdditionalChargesCommand | undefined): Observable<Unit> {
+        let url_ = this.baseUrl + "/api/services/app/DeleteAdditionalChargesCommandHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<Unit>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Unit>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<Unit> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Unit.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Unit>(<any>null);
+    }
+}
+
+@Injectable()
 export class DemoUiComponentsServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -9017,6 +10248,74 @@ export class DemoUiComponentsServiceProxy {
             }));
         }
         return _observableOf<StringOutput>(<any>null);
+    }
+}
+
+@Injectable()
+export class DepartmentServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    create(body: CreateOrEditLeadDto | undefined): Observable<CreateOrEditDepartmentDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/Department/Create";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreate(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreate(<any>response_);
+                } catch (e) {
+                    return <Observable<CreateOrEditDepartmentDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreateOrEditDepartmentDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreate(response: HttpResponseBase): Observable<CreateOrEditDepartmentDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CreateOrEditDepartmentDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreateOrEditDepartmentDto>(<any>null);
     }
 }
 
@@ -11322,6 +12621,442 @@ export class FriendshipServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class GetAdditionalChargesByBranchAndDepartmentCommandHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: GetAdditionalChargesByBranchAndDepartmentCommand | undefined): Observable<AdditionalChargeDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/GetAdditionalChargesByBranchAndDepartmentCommandHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<AdditionalChargeDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AdditionalChargeDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<AdditionalChargeDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(AdditionalChargeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AdditionalChargeDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class GetAllBranchesQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: GetAllBranchesQuery | undefined): Observable<BranchForDepartmentDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/GetAllBranchesQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchForDepartmentDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchForDepartmentDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<BranchForDepartmentDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(BranchForDepartmentDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchForDepartmentDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class GetChartOfAccountQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: GetChartOfAccountQuery | undefined): Observable<GetChartOfAccountDetailsDto> {
+        let url_ = this.baseUrl + "/api/services/app/GetChartOfAccountQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<GetChartOfAccountDetailsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetChartOfAccountDetailsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetChartOfAccountDetailsDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class GetCompanyQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: GetCompanyQuery | undefined): Observable<GetCompanyDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/GetCompanyQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<GetCompanyDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetCompanyDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<GetCompanyDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetCompanyDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetCompanyDto[]>(<any>null);
+    }
+}
+
+@Injectable()
+export class GetVerifyAddressQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: GetVerifyAddressQuery | undefined): Observable<GetVerifyAddressDto> {
+        let url_ = this.baseUrl + "/api/services/app/GetVerifyAddressQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<GetVerifyAddressDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetVerifyAddressDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<GetVerifyAddressDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetVerifyAddressDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetVerifyAddressDto>(<any>null);
+    }
+}
+
+@Injectable()
+export class GetZipCodeQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: GetZipCodeQuery | undefined): Observable<GetZipCodeDto[]> {
+        let url_ = this.baseUrl + "/api/services/app/GetZipCodeQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<GetZipCodeDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetZipCodeDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<GetZipCodeDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(GetZipCodeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetZipCodeDto[]>(<any>null);
     }
 }
 
@@ -23962,6 +25697,713 @@ export class ProfileServiceProxy {
 }
 
 @Injectable()
+export class ReadCommonShareServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @return Success
+     */
+    getChartOfAccountByAcNo(accountNo: string): Observable<GetChartOfAccountDetailsDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetChartOfAccountByAcNo/{accountNo}";
+        if (accountNo === undefined || accountNo === null)
+            throw new Error("The parameter 'accountNo' must be defined.");
+        url_ = url_.replace("{accountNo}", encodeURIComponent("" + accountNo));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetChartOfAccountByAcNo(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetChartOfAccountByAcNo(<any>response_);
+                } catch (e) {
+                    return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetChartOfAccountDetailsDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetChartOfAccountByAcNo(response: HttpResponseBase): Observable<GetChartOfAccountDetailsDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetChartOfAccountDetailsDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetChartOfAccountDetailsDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    createAdditionalCharge(body: AdditionalChargeDto | undefined): Observable<CreatedAdditionalChargeResponseDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/CreateAdditionalCharge";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCreateAdditionalCharge(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCreateAdditionalCharge(<any>response_);
+                } catch (e) {
+                    return <Observable<CreatedAdditionalChargeResponseDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<CreatedAdditionalChargeResponseDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCreateAdditionalCharge(response: HttpResponseBase): Observable<CreatedAdditionalChargeResponseDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = CreatedAdditionalChargeResponseDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<CreatedAdditionalChargeResponseDto>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    updateAdditionalCharge(additionalChargeId: number, body: AdditionalChargeDto | undefined): Observable<Unit> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/UpdateAdditionalCharge/{additionalChargeId}";
+        if (additionalChargeId === undefined || additionalChargeId === null)
+            throw new Error("The parameter 'additionalChargeId' must be defined.");
+        url_ = url_.replace("{additionalChargeId}", encodeURIComponent("" + additionalChargeId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processUpdateAdditionalCharge(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processUpdateAdditionalCharge(<any>response_);
+                } catch (e) {
+                    return <Observable<Unit>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Unit>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processUpdateAdditionalCharge(response: HttpResponseBase): Observable<Unit> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Unit.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Unit>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    deleteAdditionalCharge(additionalChargeId: number): Observable<Unit> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/DeleteAdditionalCharge/{additionalChargeId}";
+        if (additionalChargeId === undefined || additionalChargeId === null)
+            throw new Error("The parameter 'additionalChargeId' must be defined.");
+        url_ = url_.replace("{additionalChargeId}", encodeURIComponent("" + additionalChargeId));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("delete", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processDeleteAdditionalCharge(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processDeleteAdditionalCharge(<any>response_);
+                } catch (e) {
+                    return <Observable<Unit>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Unit>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processDeleteAdditionalCharge(response: HttpResponseBase): Observable<Unit> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Unit.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Unit>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAdditionalChargesByBranchAndDepartment(branchNo: number, departmentNo: number): Observable<AdditionalChargeDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetAdditionalChargesByBranchAndDepartment/{branchNo}/{departmentNo}";
+        if (branchNo === undefined || branchNo === null)
+            throw new Error("The parameter 'branchNo' must be defined.");
+        url_ = url_.replace("{branchNo}", encodeURIComponent("" + branchNo));
+        if (departmentNo === undefined || departmentNo === null)
+            throw new Error("The parameter 'departmentNo' must be defined.");
+        url_ = url_.replace("{departmentNo}", encodeURIComponent("" + departmentNo));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAdditionalChargesByBranchAndDepartment(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAdditionalChargesByBranchAndDepartment(<any>response_);
+                } catch (e) {
+                    return <Observable<AdditionalChargeDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<AdditionalChargeDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAdditionalChargesByBranchAndDepartment(response: HttpResponseBase): Observable<AdditionalChargeDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(AdditionalChargeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<AdditionalChargeDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getAllBranches(): Observable<BranchForDepartmentDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetAllBranches";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetAllBranches(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetAllBranches(<any>response_);
+                } catch (e) {
+                    return <Observable<BranchForDepartmentDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<BranchForDepartmentDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetAllBranches(response: HttpResponseBase): Observable<BranchForDepartmentDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(BranchForDepartmentDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<BranchForDepartmentDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getSalesTaxIntegration(): Observable<SalesTaxIntegrationDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetSalesTaxIntegration";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetSalesTaxIntegration(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetSalesTaxIntegration(<any>response_);
+                } catch (e) {
+                    return <Observable<SalesTaxIntegrationDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SalesTaxIntegrationDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetSalesTaxIntegration(response: HttpResponseBase): Observable<SalesTaxIntegrationDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SalesTaxIntegrationDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SalesTaxIntegrationDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getARTerms(): Observable<ARTermDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetARTerms";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetARTerms(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetARTerms(<any>response_);
+                } catch (e) {
+                    return <Observable<ARTermDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ARTermDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetARTerms(response: HttpResponseBase): Observable<ARTermDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ARTermDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ARTermDto[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getApCheckFormats(): Observable<ApCheckFormatDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetApCheckFormats";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetApCheckFormats(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetApCheckFormats(<any>response_);
+                } catch (e) {
+                    return <Observable<ApCheckFormatDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ApCheckFormatDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetApCheckFormats(response: HttpResponseBase): Observable<ApCheckFormatDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ApCheckFormatDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ApCheckFormatDto[]>(<any>null);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    getVerifyAddress(body: GetVerifyAddressInputDto | undefined): Observable<GetVerifyAddressDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetVerifyAddress";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetVerifyAddress(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetVerifyAddress(<any>response_);
+                } catch (e) {
+                    return <Observable<GetVerifyAddressDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<GetVerifyAddressDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetVerifyAddress(response: HttpResponseBase): Observable<GetVerifyAddressDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = GetVerifyAddressDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<GetVerifyAddressDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getTaxCodes(skip: number, max: number, taxCodeType: string, taxCode: string, parentTaxCode: string, description: string): Observable<PagedResultDtoOfTaxCodeDto> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetTaxCodes/{skip}/{max}/{taxCodeType}/{taxCode}/{parentTaxCode}/{description}";
+        if (skip === undefined || skip === null)
+            throw new Error("The parameter 'skip' must be defined.");
+        url_ = url_.replace("{skip}", encodeURIComponent("" + skip));
+        if (max === undefined || max === null)
+            throw new Error("The parameter 'max' must be defined.");
+        url_ = url_.replace("{max}", encodeURIComponent("" + max));
+        if (taxCodeType === undefined || taxCodeType === null)
+            throw new Error("The parameter 'taxCodeType' must be defined.");
+        url_ = url_.replace("{taxCodeType}", encodeURIComponent("" + taxCodeType));
+        if (taxCode === undefined || taxCode === null)
+            throw new Error("The parameter 'taxCode' must be defined.");
+        url_ = url_.replace("{taxCode}", encodeURIComponent("" + taxCode));
+        if (parentTaxCode === undefined || parentTaxCode === null)
+            throw new Error("The parameter 'parentTaxCode' must be defined.");
+        url_ = url_.replace("{parentTaxCode}", encodeURIComponent("" + parentTaxCode));
+        if (description === undefined || description === null)
+            throw new Error("The parameter 'description' must be defined.");
+        url_ = url_.replace("{description}", encodeURIComponent("" + description));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTaxCodes(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaxCodes(<any>response_);
+                } catch (e) {
+                    return <Observable<PagedResultDtoOfTaxCodeDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<PagedResultDtoOfTaxCodeDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTaxCodes(response: HttpResponseBase): Observable<PagedResultDtoOfTaxCodeDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = PagedResultDtoOfTaxCodeDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<PagedResultDtoOfTaxCodeDto>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    getTaxCodeTypes(): Observable<TaxCodeTypeDto[]> {
+        let url_ = this.baseUrl + "/api/v1.0/services/ReadCommonShare/GetTaxCodeTypes";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetTaxCodeTypes(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetTaxCodeTypes(<any>response_);
+                } catch (e) {
+                    return <Observable<TaxCodeTypeDto[]>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<TaxCodeTypeDto[]>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetTaxCodeTypes(response: HttpResponseBase): Observable<TaxCodeTypeDto[]> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(TaxCodeTypeDto.fromJS(item));
+            }
+            else {
+                result200 = <any>null;
+            }
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<TaxCodeTypeDto[]>(<any>null);
+    }
+}
+
+@Injectable()
 export class RoleServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -24186,6 +26628,74 @@ export class RoleServiceProxy {
             }));
         }
         return _observableOf<void>(<any>null);
+    }
+}
+
+@Injectable()
+export class SalesTaxIntegrationQueryHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: SalesTaxIntegrationQuery | undefined): Observable<SalesTaxIntegrationDto> {
+        let url_ = this.baseUrl + "/api/services/app/SalesTaxIntegrationQueryHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<SalesTaxIntegrationDto>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<SalesTaxIntegrationDto>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<SalesTaxIntegrationDto> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = SalesTaxIntegrationDto.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<SalesTaxIntegrationDto>(<any>null);
     }
 }
 
@@ -27254,6 +29764,74 @@ export class UiCustomizationSettingsServiceProxy {
 }
 
 @Injectable()
+export class UpdateAdditionalChargesCommandHandlerServiceProxy {
+    private http: HttpClient;
+    private baseUrl: string;
+    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+
+    constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+        this.http = http;
+        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    handle(body: UpdateAdditionalChargesCommand | undefined): Observable<Unit> {
+        let url_ = this.baseUrl + "/api/services/app/UpdateAdditionalChargesCommandHandler/Handle";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processHandle(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processHandle(<any>response_);
+                } catch (e) {
+                    return <Observable<Unit>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<Unit>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processHandle(response: HttpResponseBase): Observable<Unit> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = Unit.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<Unit>(<any>null);
+    }
+}
+
+@Injectable()
 export class UserServiceProxy {
     private http: HttpClient;
     private baseUrl: string;
@@ -29384,6 +31962,46 @@ export interface IAcceptFriendshipRequestInput {
     tenantId: number | undefined;
 }
 
+export class AccountReceivableInBranchDto implements IAccountReceivableInBranchDto {
+    id!: number;
+    accountReceivable!: string | undefined;
+
+    constructor(data?: IAccountReceivableInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.accountReceivable = _data["accountReceivable"];
+        }
+    }
+
+    static fromJS(data: any): AccountReceivableInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AccountReceivableInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["accountReceivable"] = this.accountReceivable;
+        return data; 
+    }
+}
+
+export interface IAccountReceivableInBranchDto {
+    id: number;
+    accountReceivable: string | undefined;
+}
+
 export class AccountTypeDto implements IAccountTypeDto {
     description!: string | undefined;
     id!: number;
@@ -30288,6 +32906,98 @@ export interface IActivityUserLookupTableDto {
     displayName: string | undefined;
 }
 
+export class AdditionalChargeDto implements IAdditionalChargeDto {
+    branch!: string | undefined;
+    dept!: string | undefined;
+    miscDescription!: string | undefined;
+    miscPercentage!: string | undefined;
+    miscSaleAccount!: string | undefined;
+    amountLimit!: string | undefined;
+    laborOnly!: boolean | undefined;
+    partsOnly!: boolean | undefined;
+    taxable!: boolean | undefined;
+    amountMin!: string | undefined;
+    created!: DateTime | undefined;
+    createdBy!: string | undefined;
+    updated!: DateTime | undefined;
+    updatedBy!: string | undefined;
+    id!: string | undefined;
+
+    constructor(data?: IAdditionalChargeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.branch = _data["branch"];
+            this.dept = _data["dept"];
+            this.miscDescription = _data["miscDescription"];
+            this.miscPercentage = _data["miscPercentage"];
+            this.miscSaleAccount = _data["miscSaleAccount"];
+            this.amountLimit = _data["amountLimit"];
+            this.laborOnly = _data["laborOnly"];
+            this.partsOnly = _data["partsOnly"];
+            this.taxable = _data["taxable"];
+            this.amountMin = _data["amountMin"];
+            this.created = _data["created"] ? DateTime.fromISO(_data["created"].toString()) : <any>undefined;
+            this.createdBy = _data["createdBy"];
+            this.updated = _data["updated"] ? DateTime.fromISO(_data["updated"].toString()) : <any>undefined;
+            this.updatedBy = _data["updatedBy"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): AdditionalChargeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new AdditionalChargeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["branch"] = this.branch;
+        data["dept"] = this.dept;
+        data["miscDescription"] = this.miscDescription;
+        data["miscPercentage"] = this.miscPercentage;
+        data["miscSaleAccount"] = this.miscSaleAccount;
+        data["amountLimit"] = this.amountLimit;
+        data["laborOnly"] = this.laborOnly;
+        data["partsOnly"] = this.partsOnly;
+        data["taxable"] = this.taxable;
+        data["amountMin"] = this.amountMin;
+        data["created"] = this.created ? this.created.toString() : <any>undefined;
+        data["createdBy"] = this.createdBy;
+        data["updated"] = this.updated ? this.updated.toString() : <any>undefined;
+        data["updatedBy"] = this.updatedBy;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IAdditionalChargeDto {
+    branch: string | undefined;
+    dept: string | undefined;
+    miscDescription: string | undefined;
+    miscPercentage: string | undefined;
+    miscSaleAccount: string | undefined;
+    amountLimit: string | undefined;
+    laborOnly: boolean | undefined;
+    partsOnly: boolean | undefined;
+    taxable: boolean | undefined;
+    amountMin: string | undefined;
+    created: DateTime | undefined;
+    createdBy: string | undefined;
+    updated: DateTime | undefined;
+    updatedBy: string | undefined;
+    id: string | undefined;
+}
+
 export class AddNewPageInput implements IAddNewPageInput {
     dashboardName!: string | undefined;
     name!: string | undefined;
@@ -30422,6 +33132,86 @@ export interface IAddWidgetInput {
     width: number;
     height: number;
     application: string | undefined;
+}
+
+export class ApCheckFormatDto implements IApCheckFormatDto {
+    formatName!: string | undefined;
+    elementName!: string | undefined;
+    topPosition!: number | undefined;
+    leftPosition!: number | undefined;
+    font!: string | undefined;
+    fontSize!: number | undefined;
+    fontBold!: boolean;
+    fontItalic!: boolean;
+    printElement!: boolean;
+    elementFormat!: string | undefined;
+    tenantId!: number;
+    isMigrated!: boolean;
+
+    constructor(data?: IApCheckFormatDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.formatName = _data["formatName"];
+            this.elementName = _data["elementName"];
+            this.topPosition = _data["topPosition"];
+            this.leftPosition = _data["leftPosition"];
+            this.font = _data["font"];
+            this.fontSize = _data["fontSize"];
+            this.fontBold = _data["fontBold"];
+            this.fontItalic = _data["fontItalic"];
+            this.printElement = _data["printElement"];
+            this.elementFormat = _data["elementFormat"];
+            this.tenantId = _data["tenantId"];
+            this.isMigrated = _data["isMigrated"];
+        }
+    }
+
+    static fromJS(data: any): ApCheckFormatDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ApCheckFormatDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["formatName"] = this.formatName;
+        data["elementName"] = this.elementName;
+        data["topPosition"] = this.topPosition;
+        data["leftPosition"] = this.leftPosition;
+        data["font"] = this.font;
+        data["fontSize"] = this.fontSize;
+        data["fontBold"] = this.fontBold;
+        data["fontItalic"] = this.fontItalic;
+        data["printElement"] = this.printElement;
+        data["elementFormat"] = this.elementFormat;
+        data["tenantId"] = this.tenantId;
+        data["isMigrated"] = this.isMigrated;
+        return data; 
+    }
+}
+
+export interface IApCheckFormatDto {
+    formatName: string | undefined;
+    elementName: string | undefined;
+    topPosition: number | undefined;
+    leftPosition: number | undefined;
+    font: string | undefined;
+    fontSize: number | undefined;
+    fontBold: boolean;
+    fontItalic: boolean;
+    printElement: boolean;
+    elementFormat: string | undefined;
+    tenantId: number;
+    isMigrated: boolean;
 }
 
 export class ApplicationInfoDto implements IApplicationInfoDto {
@@ -30684,6 +33474,74 @@ export interface IAppSettingsJsonDto {
     languages: NameValue[] | undefined;
 }
 
+export class ARTermDto implements IARTermDto {
+    id!: string | undefined;
+    terms!: string | undefined;
+    cod!: string | undefined;
+    daysDue!: string | undefined;
+    days!: string | undefined;
+    dayOfMonth!: string | undefined;
+    day!: string | undefined;
+    printWaterMark!: string | undefined;
+    creditCard!: boolean | undefined;
+
+    constructor(data?: IARTermDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.terms = _data["terms"];
+            this.cod = _data["cod"];
+            this.daysDue = _data["daysDue"];
+            this.days = _data["days"];
+            this.dayOfMonth = _data["dayOfMonth"];
+            this.day = _data["day"];
+            this.printWaterMark = _data["printWaterMark"];
+            this.creditCard = _data["creditCard"];
+        }
+    }
+
+    static fromJS(data: any): ARTermDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new ARTermDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["terms"] = this.terms;
+        data["cod"] = this.cod;
+        data["daysDue"] = this.daysDue;
+        data["days"] = this.days;
+        data["dayOfMonth"] = this.dayOfMonth;
+        data["day"] = this.day;
+        data["printWaterMark"] = this.printWaterMark;
+        data["creditCard"] = this.creditCard;
+        return data; 
+    }
+}
+
+export interface IARTermDto {
+    id: string | undefined;
+    terms: string | undefined;
+    cod: string | undefined;
+    daysDue: string | undefined;
+    days: string | undefined;
+    dayOfMonth: string | undefined;
+    day: string | undefined;
+    printWaterMark: string | undefined;
+    creditCard: boolean | undefined;
+}
+
 export class ARTermsDto implements IARTermsDto {
     terms!: string | undefined;
     cod!: number | undefined;
@@ -30762,6 +33620,36 @@ export interface IARTermsDto {
     changedBy: string | undefined;
     dateChanged: DateTime | undefined;
     creditCard: number | undefined;
+}
+
+export class ARTermsQuery implements IARTermsQuery {
+
+    constructor(data?: IARTermsQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): ARTermsQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new ARTermsQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IARTermsQuery {
 }
 
 export class AuditEventDto implements IAuditEventDto {
@@ -31096,6 +33984,170 @@ export interface IBlockUserInput {
     tenantId: number | undefined;
 }
 
+export class BranchCurrencyTypeDto implements IBranchCurrencyTypeDto {
+    arAccountNo!: string | undefined;
+    debitAccount!: string | undefined;
+    creditAccount!: string | undefined;
+    debitAccountReevaluate!: string | undefined;
+    creditAccountReevaluate!: string | undefined;
+
+    constructor(data?: IBranchCurrencyTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.arAccountNo = _data["arAccountNo"];
+            this.debitAccount = _data["debitAccount"];
+            this.creditAccount = _data["creditAccount"];
+            this.debitAccountReevaluate = _data["debitAccountReevaluate"];
+            this.creditAccountReevaluate = _data["creditAccountReevaluate"];
+        }
+    }
+
+    static fromJS(data: any): BranchCurrencyTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BranchCurrencyTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["arAccountNo"] = this.arAccountNo;
+        data["debitAccount"] = this.debitAccount;
+        data["creditAccount"] = this.creditAccount;
+        data["debitAccountReevaluate"] = this.debitAccountReevaluate;
+        data["creditAccountReevaluate"] = this.creditAccountReevaluate;
+        return data; 
+    }
+}
+
+export interface IBranchCurrencyTypeDto {
+    arAccountNo: string | undefined;
+    debitAccount: string | undefined;
+    creditAccount: string | undefined;
+    debitAccountReevaluate: string | undefined;
+    creditAccountReevaluate: string | undefined;
+}
+
+export class BranchForDepartmentDto implements IBranchForDepartmentDto {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+
+    constructor(data?: IBranchForDepartmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+        }
+    }
+
+    static fromJS(data: any): BranchForDepartmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BranchForDepartmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        return data; 
+    }
+}
+
+export interface IBranchForDepartmentDto {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+}
+
+export class BranchListItemDto implements IBranchListItemDto {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    phone!: string | undefined;
+    receivable!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    currencyType!: string | undefined;
+    creationTime!: DateTime;
+
+    constructor(data?: IBranchListItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.phone = _data["phone"];
+            this.receivable = _data["receivable"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.currencyType = _data["currencyType"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): BranchListItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new BranchListItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["phone"] = this.phone;
+        data["receivable"] = this.receivable;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["currencyType"] = this.currencyType;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IBranchListItemDto {
+    id: number;
+    number: number;
+    name: string | undefined;
+    phone: string | undefined;
+    receivable: string | undefined;
+    defaultWarehouse: string | undefined;
+    currencyType: string | undefined;
+    creationTime: DateTime;
+}
+
 export class BranchLookupTableDto implements IBranchLookupTableDto {
     number!: number;
     name!: string | undefined;
@@ -31416,6 +34468,46 @@ export interface ICheckDatabaseOutput {
     isDatabaseExist: boolean;
 }
 
+export class CityTaxCodeInBranchDto implements ICityTaxCodeInBranchDto {
+    id!: number;
+    taxCode!: string | undefined;
+
+    constructor(data?: ICityTaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.taxCode = _data["taxCode"];
+        }
+    }
+
+    static fromJS(data: any): CityTaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CityTaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["taxCode"] = this.taxCode;
+        return data; 
+    }
+}
+
+export interface ICityTaxCodeInBranchDto {
+    id: number;
+    taxCode: string | undefined;
+}
+
 export class CleanValuesInput implements ICleanValuesInput {
     dynamicEntityPropertyId!: number;
     entityId!: string | undefined;
@@ -31498,6 +34590,562 @@ export interface IComboboxItemDto {
     value: string | undefined;
     displayText: string | undefined;
     isSelected: boolean;
+}
+
+export class CompanyDto implements ICompanyDto {
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    group1!: string | undefined;
+    group2!: string | undefined;
+    group3!: string | undefined;
+    group4!: string | undefined;
+    group5!: string | undefined;
+    group6!: string | undefined;
+    invoiceCopies!: number | undefined;
+    lastInvoiceCopy!: boolean;
+    automaticInvoiceDate!: boolean;
+    partsCurrencyFormat!: string | undefined;
+    accountingPackage!: string | undefined;
+    accountingPath!: string | undefined;
+    apcheckFormat!: string | undefined;
+    nextPo!: number | undefined;
+    eqNextPo!: number | undefined;
+    currentFiscalStart!: DateTime | undefined;
+    retainedEarnings!: string | undefined;
+    accountingCutoffDate!: DateTime | undefined;
+    printLaborSummary!: boolean;
+    printSerialNo!: boolean;
+    printMake!: boolean;
+    printModel!: boolean;
+    printUnitNo!: boolean;
+    printModelGroup!: boolean;
+    printModelYear!: boolean;
+    printStage!: boolean;
+    printUpright!: boolean;
+    printDownHeight!: boolean;
+    printForks!: boolean;
+    printAttachments!: boolean;
+    printPower!: boolean;
+    printTransmission!: boolean;
+    printCapacity!: boolean;
+    printTireType!: boolean;
+    printLbr!: boolean;
+    printEquipmentComments!: boolean;
+    defaultEquipmentComments!: string | undefined;
+    logoFile!: string | undefined;
+    autoSalesGroup!: boolean;
+    disableMilesCalculation!: boolean;
+    invoiceComments!: string | undefined;
+    nextCustomerNo!: number | undefined;
+    defaultCustomerTerms!: string | undefined;
+    ltguruUserName!: string | undefined;
+    ltguruPassword!: string | undefined;
+    dealerNo!: string | undefined;
+    intrupaDealerNo!: string | undefined;
+    lpmdealerNo!: string | undefined;
+    contactFollowupDays!: number | undefined;
+    defaultWholeVerbage!: string | undefined;
+    defaultDecimalVerbage!: string | undefined;
+    invoiceCutOffDay!: number | undefined;
+    wipaccrual!: boolean;
+    includeWipbalance!: number | undefined;
+    checkDateFormat!: string | undefined;
+    smtpserver!: string | undefined;
+    smtpuserName!: string | undefined;
+    smtppassword!: string | undefined;
+    emailAddress!: string | undefined;
+    futureCutOffDate!: DateTime | undefined;
+    customerNo!: string | undefined;
+    changedBy!: string | undefined;
+    dateChanged!: DateTime | undefined;
+    image!: string | undefined;
+    useImage!: boolean;
+    nextControlNo!: number | undefined;
+    laborRounding!: number | undefined;
+    emailComments!: string | undefined;
+    smtpport!: number | undefined;
+    useUserId!: boolean | undefined;
+    eLiftUserName!: string | undefined;
+    eLiftPassword!: string | undefined;
+    eliftTest!: number | undefined;
+    mobileIncludeMisc!: number | undefined;
+    mobileIncludeTimes!: number | undefined;
+    mobileAutoDocCenter!: number | undefined;
+    mobileEmailAddress!: string | undefined;
+    smtpsecure!: boolean | undefined;
+    smtpsecureType!: number | undefined;
+    startTimeDefault!: DateTime | undefined;
+    noClearSignature!: number | undefined;
+    dispatchManualRefresh!: number | undefined;
+    quotePartsNa!: string | undefined;
+    mobileSuppressPartNo!: number | undefined;
+    mobileAddHours!: number | undefined;
+    office365!: number | undefined;
+    msexchange!: number | undefined;
+    qtoOallowPartialBo!: number | undefined;
+    hourMeterChangeAllowed!: number | undefined;
+    emailOption!: number | undefined;
+    usePayByCreditCard!: boolean;
+    creditCardVendor!: string | undefined;
+    authLogin!: string | undefined;
+    authPwd!: string | undefined;
+    lcount!: string | undefined;
+    tvhaccountNo!: string | undefined;
+    tvhkey!: string | undefined;
+    tvhcountry!: string | undefined;
+    tvhwarehouse!: string | undefined;
+    includeRawhours!: boolean;
+    quoteHoldParts!: number | undefined;
+    equipmentDeleteTest!: number | undefined;
+    qtoOpromptEachBo!: number | undefined;
+    eRentKey!: string | undefined;
+    pjtest!: boolean | undefined;
+    trailerFlag!: boolean | undefined;
+    disallowAutoPostCc!: boolean | undefined;
+    billTrustHost!: string | undefined;
+    billTrustUserName!: string | undefined;
+    billTrustPassword!: string | undefined;
+    billTrustPort!: string | undefined;
+    billTrustAgingDay!: number | undefined;
+    tenantId!: number;
+    isMigrated!: boolean;
+    isDeleted!: boolean;
+    deleterUserId!: number | undefined;
+    deletionTime!: DateTime | undefined;
+    lastModificationTime!: DateTime | undefined;
+    lastModifierUserId!: number | undefined;
+    creationTime!: DateTime;
+    creatorUserId!: number | undefined;
+    id!: number;
+
+    constructor(data?: ICompanyDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.group1 = _data["group1"];
+            this.group2 = _data["group2"];
+            this.group3 = _data["group3"];
+            this.group4 = _data["group4"];
+            this.group5 = _data["group5"];
+            this.group6 = _data["group6"];
+            this.invoiceCopies = _data["invoiceCopies"];
+            this.lastInvoiceCopy = _data["lastInvoiceCopy"];
+            this.automaticInvoiceDate = _data["automaticInvoiceDate"];
+            this.partsCurrencyFormat = _data["partsCurrencyFormat"];
+            this.accountingPackage = _data["accountingPackage"];
+            this.accountingPath = _data["accountingPath"];
+            this.apcheckFormat = _data["apcheckFormat"];
+            this.nextPo = _data["nextPo"];
+            this.eqNextPo = _data["eqNextPo"];
+            this.currentFiscalStart = _data["currentFiscalStart"] ? DateTime.fromISO(_data["currentFiscalStart"].toString()) : <any>undefined;
+            this.retainedEarnings = _data["retainedEarnings"];
+            this.accountingCutoffDate = _data["accountingCutoffDate"] ? DateTime.fromISO(_data["accountingCutoffDate"].toString()) : <any>undefined;
+            this.printLaborSummary = _data["printLaborSummary"];
+            this.printSerialNo = _data["printSerialNo"];
+            this.printMake = _data["printMake"];
+            this.printModel = _data["printModel"];
+            this.printUnitNo = _data["printUnitNo"];
+            this.printModelGroup = _data["printModelGroup"];
+            this.printModelYear = _data["printModelYear"];
+            this.printStage = _data["printStage"];
+            this.printUpright = _data["printUpright"];
+            this.printDownHeight = _data["printDownHeight"];
+            this.printForks = _data["printForks"];
+            this.printAttachments = _data["printAttachments"];
+            this.printPower = _data["printPower"];
+            this.printTransmission = _data["printTransmission"];
+            this.printCapacity = _data["printCapacity"];
+            this.printTireType = _data["printTireType"];
+            this.printLbr = _data["printLbr"];
+            this.printEquipmentComments = _data["printEquipmentComments"];
+            this.defaultEquipmentComments = _data["defaultEquipmentComments"];
+            this.logoFile = _data["logoFile"];
+            this.autoSalesGroup = _data["autoSalesGroup"];
+            this.disableMilesCalculation = _data["disableMilesCalculation"];
+            this.invoiceComments = _data["invoiceComments"];
+            this.nextCustomerNo = _data["nextCustomerNo"];
+            this.defaultCustomerTerms = _data["defaultCustomerTerms"];
+            this.ltguruUserName = _data["ltguruUserName"];
+            this.ltguruPassword = _data["ltguruPassword"];
+            this.dealerNo = _data["dealerNo"];
+            this.intrupaDealerNo = _data["intrupaDealerNo"];
+            this.lpmdealerNo = _data["lpmdealerNo"];
+            this.contactFollowupDays = _data["contactFollowupDays"];
+            this.defaultWholeVerbage = _data["defaultWholeVerbage"];
+            this.defaultDecimalVerbage = _data["defaultDecimalVerbage"];
+            this.invoiceCutOffDay = _data["invoiceCutOffDay"];
+            this.wipaccrual = _data["wipaccrual"];
+            this.includeWipbalance = _data["includeWipbalance"];
+            this.checkDateFormat = _data["checkDateFormat"];
+            this.smtpserver = _data["smtpserver"];
+            this.smtpuserName = _data["smtpuserName"];
+            this.smtppassword = _data["smtppassword"];
+            this.emailAddress = _data["emailAddress"];
+            this.futureCutOffDate = _data["futureCutOffDate"] ? DateTime.fromISO(_data["futureCutOffDate"].toString()) : <any>undefined;
+            this.customerNo = _data["customerNo"];
+            this.changedBy = _data["changedBy"];
+            this.dateChanged = _data["dateChanged"] ? DateTime.fromISO(_data["dateChanged"].toString()) : <any>undefined;
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.nextControlNo = _data["nextControlNo"];
+            this.laborRounding = _data["laborRounding"];
+            this.emailComments = _data["emailComments"];
+            this.smtpport = _data["smtpport"];
+            this.useUserId = _data["useUserId"];
+            this.eLiftUserName = _data["eLiftUserName"];
+            this.eLiftPassword = _data["eLiftPassword"];
+            this.eliftTest = _data["eliftTest"];
+            this.mobileIncludeMisc = _data["mobileIncludeMisc"];
+            this.mobileIncludeTimes = _data["mobileIncludeTimes"];
+            this.mobileAutoDocCenter = _data["mobileAutoDocCenter"];
+            this.mobileEmailAddress = _data["mobileEmailAddress"];
+            this.smtpsecure = _data["smtpsecure"];
+            this.smtpsecureType = _data["smtpsecureType"];
+            this.startTimeDefault = _data["startTimeDefault"] ? DateTime.fromISO(_data["startTimeDefault"].toString()) : <any>undefined;
+            this.noClearSignature = _data["noClearSignature"];
+            this.dispatchManualRefresh = _data["dispatchManualRefresh"];
+            this.quotePartsNa = _data["quotePartsNa"];
+            this.mobileSuppressPartNo = _data["mobileSuppressPartNo"];
+            this.mobileAddHours = _data["mobileAddHours"];
+            this.office365 = _data["office365"];
+            this.msexchange = _data["msexchange"];
+            this.qtoOallowPartialBo = _data["qtoOallowPartialBo"];
+            this.hourMeterChangeAllowed = _data["hourMeterChangeAllowed"];
+            this.emailOption = _data["emailOption"];
+            this.usePayByCreditCard = _data["usePayByCreditCard"];
+            this.creditCardVendor = _data["creditCardVendor"];
+            this.authLogin = _data["authLogin"];
+            this.authPwd = _data["authPwd"];
+            this.lcount = _data["lcount"];
+            this.tvhaccountNo = _data["tvhaccountNo"];
+            this.tvhkey = _data["tvhkey"];
+            this.tvhcountry = _data["tvhcountry"];
+            this.tvhwarehouse = _data["tvhwarehouse"];
+            this.includeRawhours = _data["includeRawhours"];
+            this.quoteHoldParts = _data["quoteHoldParts"];
+            this.equipmentDeleteTest = _data["equipmentDeleteTest"];
+            this.qtoOpromptEachBo = _data["qtoOpromptEachBo"];
+            this.eRentKey = _data["eRentKey"];
+            this.pjtest = _data["pjtest"];
+            this.trailerFlag = _data["trailerFlag"];
+            this.disallowAutoPostCc = _data["disallowAutoPostCc"];
+            this.billTrustHost = _data["billTrustHost"];
+            this.billTrustUserName = _data["billTrustUserName"];
+            this.billTrustPassword = _data["billTrustPassword"];
+            this.billTrustPort = _data["billTrustPort"];
+            this.billTrustAgingDay = _data["billTrustAgingDay"];
+            this.tenantId = _data["tenantId"];
+            this.isMigrated = _data["isMigrated"];
+            this.isDeleted = _data["isDeleted"];
+            this.deleterUserId = _data["deleterUserId"];
+            this.deletionTime = _data["deletionTime"] ? DateTime.fromISO(_data["deletionTime"].toString()) : <any>undefined;
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+            this.lastModifierUserId = _data["lastModifierUserId"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.creatorUserId = _data["creatorUserId"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CompanyDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CompanyDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["group1"] = this.group1;
+        data["group2"] = this.group2;
+        data["group3"] = this.group3;
+        data["group4"] = this.group4;
+        data["group5"] = this.group5;
+        data["group6"] = this.group6;
+        data["invoiceCopies"] = this.invoiceCopies;
+        data["lastInvoiceCopy"] = this.lastInvoiceCopy;
+        data["automaticInvoiceDate"] = this.automaticInvoiceDate;
+        data["partsCurrencyFormat"] = this.partsCurrencyFormat;
+        data["accountingPackage"] = this.accountingPackage;
+        data["accountingPath"] = this.accountingPath;
+        data["apcheckFormat"] = this.apcheckFormat;
+        data["nextPo"] = this.nextPo;
+        data["eqNextPo"] = this.eqNextPo;
+        data["currentFiscalStart"] = this.currentFiscalStart ? this.currentFiscalStart.toString() : <any>undefined;
+        data["retainedEarnings"] = this.retainedEarnings;
+        data["accountingCutoffDate"] = this.accountingCutoffDate ? this.accountingCutoffDate.toString() : <any>undefined;
+        data["printLaborSummary"] = this.printLaborSummary;
+        data["printSerialNo"] = this.printSerialNo;
+        data["printMake"] = this.printMake;
+        data["printModel"] = this.printModel;
+        data["printUnitNo"] = this.printUnitNo;
+        data["printModelGroup"] = this.printModelGroup;
+        data["printModelYear"] = this.printModelYear;
+        data["printStage"] = this.printStage;
+        data["printUpright"] = this.printUpright;
+        data["printDownHeight"] = this.printDownHeight;
+        data["printForks"] = this.printForks;
+        data["printAttachments"] = this.printAttachments;
+        data["printPower"] = this.printPower;
+        data["printTransmission"] = this.printTransmission;
+        data["printCapacity"] = this.printCapacity;
+        data["printTireType"] = this.printTireType;
+        data["printLbr"] = this.printLbr;
+        data["printEquipmentComments"] = this.printEquipmentComments;
+        data["defaultEquipmentComments"] = this.defaultEquipmentComments;
+        data["logoFile"] = this.logoFile;
+        data["autoSalesGroup"] = this.autoSalesGroup;
+        data["disableMilesCalculation"] = this.disableMilesCalculation;
+        data["invoiceComments"] = this.invoiceComments;
+        data["nextCustomerNo"] = this.nextCustomerNo;
+        data["defaultCustomerTerms"] = this.defaultCustomerTerms;
+        data["ltguruUserName"] = this.ltguruUserName;
+        data["ltguruPassword"] = this.ltguruPassword;
+        data["dealerNo"] = this.dealerNo;
+        data["intrupaDealerNo"] = this.intrupaDealerNo;
+        data["lpmdealerNo"] = this.lpmdealerNo;
+        data["contactFollowupDays"] = this.contactFollowupDays;
+        data["defaultWholeVerbage"] = this.defaultWholeVerbage;
+        data["defaultDecimalVerbage"] = this.defaultDecimalVerbage;
+        data["invoiceCutOffDay"] = this.invoiceCutOffDay;
+        data["wipaccrual"] = this.wipaccrual;
+        data["includeWipbalance"] = this.includeWipbalance;
+        data["checkDateFormat"] = this.checkDateFormat;
+        data["smtpserver"] = this.smtpserver;
+        data["smtpuserName"] = this.smtpuserName;
+        data["smtppassword"] = this.smtppassword;
+        data["emailAddress"] = this.emailAddress;
+        data["futureCutOffDate"] = this.futureCutOffDate ? this.futureCutOffDate.toString() : <any>undefined;
+        data["customerNo"] = this.customerNo;
+        data["changedBy"] = this.changedBy;
+        data["dateChanged"] = this.dateChanged ? this.dateChanged.toString() : <any>undefined;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["nextControlNo"] = this.nextControlNo;
+        data["laborRounding"] = this.laborRounding;
+        data["emailComments"] = this.emailComments;
+        data["smtpport"] = this.smtpport;
+        data["useUserId"] = this.useUserId;
+        data["eLiftUserName"] = this.eLiftUserName;
+        data["eLiftPassword"] = this.eLiftPassword;
+        data["eliftTest"] = this.eliftTest;
+        data["mobileIncludeMisc"] = this.mobileIncludeMisc;
+        data["mobileIncludeTimes"] = this.mobileIncludeTimes;
+        data["mobileAutoDocCenter"] = this.mobileAutoDocCenter;
+        data["mobileEmailAddress"] = this.mobileEmailAddress;
+        data["smtpsecure"] = this.smtpsecure;
+        data["smtpsecureType"] = this.smtpsecureType;
+        data["startTimeDefault"] = this.startTimeDefault ? this.startTimeDefault.toString() : <any>undefined;
+        data["noClearSignature"] = this.noClearSignature;
+        data["dispatchManualRefresh"] = this.dispatchManualRefresh;
+        data["quotePartsNa"] = this.quotePartsNa;
+        data["mobileSuppressPartNo"] = this.mobileSuppressPartNo;
+        data["mobileAddHours"] = this.mobileAddHours;
+        data["office365"] = this.office365;
+        data["msexchange"] = this.msexchange;
+        data["qtoOallowPartialBo"] = this.qtoOallowPartialBo;
+        data["hourMeterChangeAllowed"] = this.hourMeterChangeAllowed;
+        data["emailOption"] = this.emailOption;
+        data["usePayByCreditCard"] = this.usePayByCreditCard;
+        data["creditCardVendor"] = this.creditCardVendor;
+        data["authLogin"] = this.authLogin;
+        data["authPwd"] = this.authPwd;
+        data["lcount"] = this.lcount;
+        data["tvhaccountNo"] = this.tvhaccountNo;
+        data["tvhkey"] = this.tvhkey;
+        data["tvhcountry"] = this.tvhcountry;
+        data["tvhwarehouse"] = this.tvhwarehouse;
+        data["includeRawhours"] = this.includeRawhours;
+        data["quoteHoldParts"] = this.quoteHoldParts;
+        data["equipmentDeleteTest"] = this.equipmentDeleteTest;
+        data["qtoOpromptEachBo"] = this.qtoOpromptEachBo;
+        data["eRentKey"] = this.eRentKey;
+        data["pjtest"] = this.pjtest;
+        data["trailerFlag"] = this.trailerFlag;
+        data["disallowAutoPostCc"] = this.disallowAutoPostCc;
+        data["billTrustHost"] = this.billTrustHost;
+        data["billTrustUserName"] = this.billTrustUserName;
+        data["billTrustPassword"] = this.billTrustPassword;
+        data["billTrustPort"] = this.billTrustPort;
+        data["billTrustAgingDay"] = this.billTrustAgingDay;
+        data["tenantId"] = this.tenantId;
+        data["isMigrated"] = this.isMigrated;
+        data["isDeleted"] = this.isDeleted;
+        data["deleterUserId"] = this.deleterUserId;
+        data["deletionTime"] = this.deletionTime ? this.deletionTime.toString() : <any>undefined;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        data["lastModifierUserId"] = this.lastModifierUserId;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["creatorUserId"] = this.creatorUserId;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICompanyDto {
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    group1: string | undefined;
+    group2: string | undefined;
+    group3: string | undefined;
+    group4: string | undefined;
+    group5: string | undefined;
+    group6: string | undefined;
+    invoiceCopies: number | undefined;
+    lastInvoiceCopy: boolean;
+    automaticInvoiceDate: boolean;
+    partsCurrencyFormat: string | undefined;
+    accountingPackage: string | undefined;
+    accountingPath: string | undefined;
+    apcheckFormat: string | undefined;
+    nextPo: number | undefined;
+    eqNextPo: number | undefined;
+    currentFiscalStart: DateTime | undefined;
+    retainedEarnings: string | undefined;
+    accountingCutoffDate: DateTime | undefined;
+    printLaborSummary: boolean;
+    printSerialNo: boolean;
+    printMake: boolean;
+    printModel: boolean;
+    printUnitNo: boolean;
+    printModelGroup: boolean;
+    printModelYear: boolean;
+    printStage: boolean;
+    printUpright: boolean;
+    printDownHeight: boolean;
+    printForks: boolean;
+    printAttachments: boolean;
+    printPower: boolean;
+    printTransmission: boolean;
+    printCapacity: boolean;
+    printTireType: boolean;
+    printLbr: boolean;
+    printEquipmentComments: boolean;
+    defaultEquipmentComments: string | undefined;
+    logoFile: string | undefined;
+    autoSalesGroup: boolean;
+    disableMilesCalculation: boolean;
+    invoiceComments: string | undefined;
+    nextCustomerNo: number | undefined;
+    defaultCustomerTerms: string | undefined;
+    ltguruUserName: string | undefined;
+    ltguruPassword: string | undefined;
+    dealerNo: string | undefined;
+    intrupaDealerNo: string | undefined;
+    lpmdealerNo: string | undefined;
+    contactFollowupDays: number | undefined;
+    defaultWholeVerbage: string | undefined;
+    defaultDecimalVerbage: string | undefined;
+    invoiceCutOffDay: number | undefined;
+    wipaccrual: boolean;
+    includeWipbalance: number | undefined;
+    checkDateFormat: string | undefined;
+    smtpserver: string | undefined;
+    smtpuserName: string | undefined;
+    smtppassword: string | undefined;
+    emailAddress: string | undefined;
+    futureCutOffDate: DateTime | undefined;
+    customerNo: string | undefined;
+    changedBy: string | undefined;
+    dateChanged: DateTime | undefined;
+    image: string | undefined;
+    useImage: boolean;
+    nextControlNo: number | undefined;
+    laborRounding: number | undefined;
+    emailComments: string | undefined;
+    smtpport: number | undefined;
+    useUserId: boolean | undefined;
+    eLiftUserName: string | undefined;
+    eLiftPassword: string | undefined;
+    eliftTest: number | undefined;
+    mobileIncludeMisc: number | undefined;
+    mobileIncludeTimes: number | undefined;
+    mobileAutoDocCenter: number | undefined;
+    mobileEmailAddress: string | undefined;
+    smtpsecure: boolean | undefined;
+    smtpsecureType: number | undefined;
+    startTimeDefault: DateTime | undefined;
+    noClearSignature: number | undefined;
+    dispatchManualRefresh: number | undefined;
+    quotePartsNa: string | undefined;
+    mobileSuppressPartNo: number | undefined;
+    mobileAddHours: number | undefined;
+    office365: number | undefined;
+    msexchange: number | undefined;
+    qtoOallowPartialBo: number | undefined;
+    hourMeterChangeAllowed: number | undefined;
+    emailOption: number | undefined;
+    usePayByCreditCard: boolean;
+    creditCardVendor: string | undefined;
+    authLogin: string | undefined;
+    authPwd: string | undefined;
+    lcount: string | undefined;
+    tvhaccountNo: string | undefined;
+    tvhkey: string | undefined;
+    tvhcountry: string | undefined;
+    tvhwarehouse: string | undefined;
+    includeRawhours: boolean;
+    quoteHoldParts: number | undefined;
+    equipmentDeleteTest: number | undefined;
+    qtoOpromptEachBo: number | undefined;
+    eRentKey: string | undefined;
+    pjtest: boolean | undefined;
+    trailerFlag: boolean | undefined;
+    disallowAutoPostCc: boolean | undefined;
+    billTrustHost: string | undefined;
+    billTrustUserName: string | undefined;
+    billTrustPassword: string | undefined;
+    billTrustPort: string | undefined;
+    billTrustAgingDay: number | undefined;
+    tenantId: number;
+    isMigrated: boolean;
+    isDeleted: boolean;
+    deleterUserId: number | undefined;
+    deletionTime: DateTime | undefined;
+    lastModificationTime: DateTime | undefined;
+    lastModifierUserId: number | undefined;
+    creationTime: DateTime;
+    creatorUserId: number | undefined;
+    id: number;
 }
 
 export class ContactDto implements IContactDto {
@@ -31710,6 +35358,166 @@ export interface ICountryDto {
     name: string | undefined;
     code: string | undefined;
     id: number;
+}
+
+export class CountyTaxCodeInBranchDto implements ICountyTaxCodeInBranchDto {
+    id!: number;
+    taxCode!: string | undefined;
+
+    constructor(data?: ICountyTaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.taxCode = _data["taxCode"];
+        }
+    }
+
+    static fromJS(data: any): CountyTaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CountyTaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["taxCode"] = this.taxCode;
+        return data; 
+    }
+}
+
+export interface ICountyTaxCodeInBranchDto {
+    id: number;
+    taxCode: string | undefined;
+}
+
+export class CreateAdditionalChargesCommand implements ICreateAdditionalChargesCommand {
+    additionalCharges!: AdditionalChargeDto;
+
+    constructor(data?: ICreateAdditionalChargesCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.additionalCharges = _data["additionalCharges"] ? AdditionalChargeDto.fromJS(_data["additionalCharges"]) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): CreateAdditionalChargesCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateAdditionalChargesCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["additionalCharges"] = this.additionalCharges ? this.additionalCharges.toJSON() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface ICreateAdditionalChargesCommand {
+    additionalCharges: AdditionalChargeDto;
+}
+
+export class CreateCompanyCommand implements ICreateCompanyCommand {
+    name!: string | undefined;
+
+    constructor(data?: ICreateCompanyCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): CreateCompanyCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateCompanyCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface ICreateCompanyCommand {
+    name: string | undefined;
+}
+
+export class CreatedAdditionalChargeResponseDto implements ICreatedAdditionalChargeResponseDto {
+    id!: string | undefined;
+    branch!: string | undefined;
+    dept!: string | undefined;
+    miscDescription!: string | undefined;
+
+    constructor(data?: ICreatedAdditionalChargeResponseDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.branch = _data["branch"];
+            this.dept = _data["dept"];
+            this.miscDescription = _data["miscDescription"];
+        }
+    }
+
+    static fromJS(data: any): CreatedAdditionalChargeResponseDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreatedAdditionalChargeResponseDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["branch"] = this.branch;
+        data["dept"] = this.dept;
+        data["miscDescription"] = this.miscDescription;
+        return data; 
+    }
+}
+
+export interface ICreatedAdditionalChargeResponseDto {
+    id: string | undefined;
+    branch: string | undefined;
+    dept: string | undefined;
+    miscDescription: string | undefined;
 }
 
 export class CreateEditionDto implements ICreateEditionDto {
@@ -32570,6 +36378,126 @@ export interface ICreateOrEditCustomerDto {
     sicCode3: string | undefined;
     sicCode4: string | undefined;
     businessDescription: string | undefined;
+}
+
+export class CreateOrEditDepartmentDto implements ICreateOrEditDepartmentDto {
+    branch!: string | undefined;
+    department!: string | undefined;
+    title!: string | undefined;
+    saleGroup!: string | undefined;
+    reportingGroup!: string | undefined;
+    mechanicGroup!: string | undefined;
+    termsOverride!: string | undefined;
+    invoiceType!: string | undefined;
+    invoiceName!: string | undefined;
+    invoiceFrench!: string | undefined;
+    allowPartsPricingOverride!: boolean;
+    suppressLaborHours!: boolean;
+    taxAtDealer!: boolean;
+    noCreditCardTransactions!: boolean;
+    initialComments!: boolean;
+    suppressPartsPricing!: boolean;
+    noCreditCheckForQuotes!: boolean;
+    laborAccount!: string | undefined;
+    equipmentAccount!: string | undefined;
+    cashAccount!: string | undefined;
+    creditCardAccount!: string | undefined;
+    id!: number | undefined;
+
+    constructor(data?: ICreateOrEditDepartmentDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.branch = _data["branch"];
+            this.department = _data["department"];
+            this.title = _data["title"];
+            this.saleGroup = _data["saleGroup"];
+            this.reportingGroup = _data["reportingGroup"];
+            this.mechanicGroup = _data["mechanicGroup"];
+            this.termsOverride = _data["termsOverride"];
+            this.invoiceType = _data["invoiceType"];
+            this.invoiceName = _data["invoiceName"];
+            this.invoiceFrench = _data["invoiceFrench"];
+            this.allowPartsPricingOverride = _data["allowPartsPricingOverride"];
+            this.suppressLaborHours = _data["suppressLaborHours"];
+            this.taxAtDealer = _data["taxAtDealer"];
+            this.noCreditCardTransactions = _data["noCreditCardTransactions"];
+            this.initialComments = _data["initialComments"];
+            this.suppressPartsPricing = _data["suppressPartsPricing"];
+            this.noCreditCheckForQuotes = _data["noCreditCheckForQuotes"];
+            this.laborAccount = _data["laborAccount"];
+            this.equipmentAccount = _data["equipmentAccount"];
+            this.cashAccount = _data["cashAccount"];
+            this.creditCardAccount = _data["creditCardAccount"];
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): CreateOrEditDepartmentDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CreateOrEditDepartmentDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["branch"] = this.branch;
+        data["department"] = this.department;
+        data["title"] = this.title;
+        data["saleGroup"] = this.saleGroup;
+        data["reportingGroup"] = this.reportingGroup;
+        data["mechanicGroup"] = this.mechanicGroup;
+        data["termsOverride"] = this.termsOverride;
+        data["invoiceType"] = this.invoiceType;
+        data["invoiceName"] = this.invoiceName;
+        data["invoiceFrench"] = this.invoiceFrench;
+        data["allowPartsPricingOverride"] = this.allowPartsPricingOverride;
+        data["suppressLaborHours"] = this.suppressLaborHours;
+        data["taxAtDealer"] = this.taxAtDealer;
+        data["noCreditCardTransactions"] = this.noCreditCardTransactions;
+        data["initialComments"] = this.initialComments;
+        data["suppressPartsPricing"] = this.suppressPartsPricing;
+        data["noCreditCheckForQuotes"] = this.noCreditCheckForQuotes;
+        data["laborAccount"] = this.laborAccount;
+        data["equipmentAccount"] = this.equipmentAccount;
+        data["cashAccount"] = this.cashAccount;
+        data["creditCardAccount"] = this.creditCardAccount;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface ICreateOrEditDepartmentDto {
+    branch: string | undefined;
+    department: string | undefined;
+    title: string | undefined;
+    saleGroup: string | undefined;
+    reportingGroup: string | undefined;
+    mechanicGroup: string | undefined;
+    termsOverride: string | undefined;
+    invoiceType: string | undefined;
+    invoiceName: string | undefined;
+    invoiceFrench: string | undefined;
+    allowPartsPricingOverride: boolean;
+    suppressLaborHours: boolean;
+    taxAtDealer: boolean;
+    noCreditCardTransactions: boolean;
+    initialComments: boolean;
+    suppressPartsPricing: boolean;
+    noCreditCheckForQuotes: boolean;
+    laborAccount: string | undefined;
+    equipmentAccount: string | undefined;
+    cashAccount: string | undefined;
+    creditCardAccount: string | undefined;
+    id: number | undefined;
 }
 
 export class CreateOrEditIndustryDto implements ICreateOrEditIndustryDto {
@@ -33623,6 +37551,46 @@ export interface ICreateUserDelegationDto {
     endTime: DateTime;
 }
 
+export class CurrencyTypeLookupDto implements ICurrencyTypeLookupDto {
+    id!: number;
+    currencyType!: string | undefined;
+
+    constructor(data?: ICurrencyTypeLookupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.currencyType = _data["currencyType"];
+        }
+    }
+
+    static fromJS(data: any): CurrencyTypeLookupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new CurrencyTypeLookupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["currencyType"] = this.currencyType;
+        return data; 
+    }
+}
+
+export interface ICurrencyTypeLookupDto {
+    id: number;
+    currencyType: string | undefined;
+}
+
 export class CurrentUserProfileEditDto implements ICurrentUserProfileEditDto {
     name!: string;
     surname!: string;
@@ -34525,6 +38493,42 @@ export class DelegatedImpersonateInput implements IDelegatedImpersonateInput {
 
 export interface IDelegatedImpersonateInput {
     userDelegationId: number;
+}
+
+export class DeleteAdditionalChargesCommand implements IDeleteAdditionalChargesCommand {
+    id!: number;
+
+    constructor(data?: IDeleteAdditionalChargesCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): DeleteAdditionalChargesCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new DeleteAdditionalChargesCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IDeleteAdditionalChargesCommand {
+    id: number;
 }
 
 export class DepartmentLookupTableDto implements IDepartmentLookupTableDto {
@@ -37149,6 +41153,46 @@ export interface IGetActivityTaskTypeForViewDto {
     activityTaskType: ActivityTaskTypeDto;
 }
 
+export class GetAdditionalChargesByBranchAndDepartmentCommand implements IGetAdditionalChargesByBranchAndDepartmentCommand {
+    branchNo!: number;
+    departmentNo!: number;
+
+    constructor(data?: IGetAdditionalChargesByBranchAndDepartmentCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.branchNo = _data["branchNo"];
+            this.departmentNo = _data["departmentNo"];
+        }
+    }
+
+    static fromJS(data: any): GetAdditionalChargesByBranchAndDepartmentCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAdditionalChargesByBranchAndDepartmentCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["branchNo"] = this.branchNo;
+        data["departmentNo"] = this.departmentNo;
+        return data; 
+    }
+}
+
+export interface IGetAdditionalChargesByBranchAndDepartmentCommand {
+    branchNo: number;
+    departmentNo: number;
+}
+
 export class GetAllAvailableWebhooksOutput implements IGetAllAvailableWebhooksOutput {
     name!: string | undefined;
     displayName!: string | undefined;
@@ -37191,6 +41235,36 @@ export interface IGetAllAvailableWebhooksOutput {
     name: string | undefined;
     displayName: string | undefined;
     description: string | undefined;
+}
+
+export class GetAllBranchesQuery implements IGetAllBranchesQuery {
+
+    constructor(data?: IGetAllBranchesQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): GetAllBranchesQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetAllBranchesQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IGetAllBranchesQuery {
 }
 
 export class GetAllDynamicEntityPropertyValuesOutput implements IGetAllDynamicEntityPropertyValuesOutput {
@@ -37551,6 +41625,792 @@ export class GetARTermsForViewDto implements IGetARTermsForViewDto {
 
 export interface IGetARTermsForViewDto {
     arTerms: ARTermsDto;
+}
+
+export class GetBranchInitialDataDto implements IGetBranchInitialDataDto {
+    accountsReceivables!: AccountReceivableInBranchDto[] | undefined;
+    warehouses!: WarehouseLookupDto[] | undefined;
+    tvhWarehouses!: TvhWarehouseLookupDto[] | undefined;
+    currencyTypes!: CurrencyTypeLookupDto[] | undefined;
+    taxCodes!: TaxCodeInBranchDto[] | undefined;
+    countries!: CountryDto[] | undefined;
+
+    constructor(data?: IGetBranchInitialDataDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["accountsReceivables"])) {
+                this.accountsReceivables = [] as any;
+                for (let item of _data["accountsReceivables"])
+                    this.accountsReceivables!.push(AccountReceivableInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["warehouses"])) {
+                this.warehouses = [] as any;
+                for (let item of _data["warehouses"])
+                    this.warehouses!.push(WarehouseLookupDto.fromJS(item));
+            }
+            if (Array.isArray(_data["tvhWarehouses"])) {
+                this.tvhWarehouses = [] as any;
+                for (let item of _data["tvhWarehouses"])
+                    this.tvhWarehouses!.push(TvhWarehouseLookupDto.fromJS(item));
+            }
+            if (Array.isArray(_data["currencyTypes"])) {
+                this.currencyTypes = [] as any;
+                for (let item of _data["currencyTypes"])
+                    this.currencyTypes!.push(CurrencyTypeLookupDto.fromJS(item));
+            }
+            if (Array.isArray(_data["taxCodes"])) {
+                this.taxCodes = [] as any;
+                for (let item of _data["taxCodes"])
+                    this.taxCodes!.push(TaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["countries"])) {
+                this.countries = [] as any;
+                for (let item of _data["countries"])
+                    this.countries!.push(CountryDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetBranchInitialDataDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetBranchInitialDataDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.accountsReceivables)) {
+            data["accountsReceivables"] = [];
+            for (let item of this.accountsReceivables)
+                data["accountsReceivables"].push(item.toJSON());
+        }
+        if (Array.isArray(this.warehouses)) {
+            data["warehouses"] = [];
+            for (let item of this.warehouses)
+                data["warehouses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.tvhWarehouses)) {
+            data["tvhWarehouses"] = [];
+            for (let item of this.tvhWarehouses)
+                data["tvhWarehouses"].push(item.toJSON());
+        }
+        if (Array.isArray(this.currencyTypes)) {
+            data["currencyTypes"] = [];
+            for (let item of this.currencyTypes)
+                data["currencyTypes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.taxCodes)) {
+            data["taxCodes"] = [];
+            for (let item of this.taxCodes)
+                data["taxCodes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.countries)) {
+            data["countries"] = [];
+            for (let item of this.countries)
+                data["countries"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetBranchInitialDataDto {
+    accountsReceivables: AccountReceivableInBranchDto[] | undefined;
+    warehouses: WarehouseLookupDto[] | undefined;
+    tvhWarehouses: TvhWarehouseLookupDto[] | undefined;
+    currencyTypes: CurrencyTypeLookupDto[] | undefined;
+    taxCodes: TaxCodeInBranchDto[] | undefined;
+    countries: CountryDto[] | undefined;
+}
+
+export class GetChartOfAccountDetailsDto implements IGetChartOfAccountDetailsDto {
+    id!: number;
+    accountNo!: string | undefined;
+    description!: string | undefined;
+    type!: string | undefined;
+
+    constructor(data?: IGetChartOfAccountDetailsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.accountNo = _data["accountNo"];
+            this.description = _data["description"];
+            this.type = _data["type"];
+        }
+    }
+
+    static fromJS(data: any): GetChartOfAccountDetailsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetChartOfAccountDetailsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["accountNo"] = this.accountNo;
+        data["description"] = this.description;
+        data["type"] = this.type;
+        return data; 
+    }
+}
+
+export interface IGetChartOfAccountDetailsDto {
+    id: number;
+    accountNo: string | undefined;
+    description: string | undefined;
+    type: string | undefined;
+}
+
+export class GetChartOfAccountQuery implements IGetChartOfAccountQuery {
+    accountNo!: string | undefined;
+
+    constructor(data?: IGetChartOfAccountQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.accountNo = _data["accountNo"];
+        }
+    }
+
+    static fromJS(data: any): GetChartOfAccountQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetChartOfAccountQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["accountNo"] = this.accountNo;
+        return data; 
+    }
+}
+
+export interface IGetChartOfAccountQuery {
+    accountNo: string | undefined;
+}
+
+export class GetCompanyDto implements IGetCompanyDto {
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    group1!: string | undefined;
+    group2!: string | undefined;
+    group3!: string | undefined;
+    group4!: string | undefined;
+    group5!: string | undefined;
+    group6!: string | undefined;
+    invoiceCopies!: number | undefined;
+    lastInvoiceCopy!: boolean;
+    automaticInvoiceDate!: boolean;
+    partsCurrencyFormat!: string | undefined;
+    accountingPackage!: string | undefined;
+    accountingPath!: string | undefined;
+    apcheckFormat!: string | undefined;
+    nextPo!: number | undefined;
+    eqNextPo!: number | undefined;
+    currentFiscalStart!: DateTime | undefined;
+    retainedEarnings!: string | undefined;
+    accountingCutoffDate!: DateTime | undefined;
+    printLaborSummary!: boolean;
+    printSerialNo!: boolean;
+    printMake!: boolean;
+    printModel!: boolean;
+    printUnitNo!: boolean;
+    printModelGroup!: boolean;
+    printModelYear!: boolean;
+    printStage!: boolean;
+    printUpright!: boolean;
+    printDownHeight!: boolean;
+    printForks!: boolean;
+    printAttachments!: boolean;
+    printPower!: boolean;
+    printTransmission!: boolean;
+    printCapacity!: boolean;
+    printTireType!: boolean;
+    printLbr!: boolean;
+    printEquipmentComments!: boolean;
+    defaultEquipmentComments!: string | undefined;
+    logoFile!: string | undefined;
+    autoSalesGroup!: boolean;
+    disableMilesCalculation!: boolean;
+    invoiceComments!: string | undefined;
+    nextCustomerNo!: number | undefined;
+    defaultCustomerTerms!: string | undefined;
+    ltguruUserName!: string | undefined;
+    ltguruPassword!: string | undefined;
+    dealerNo!: string | undefined;
+    intrupaDealerNo!: string | undefined;
+    lpmdealerNo!: string | undefined;
+    contactFollowupDays!: number | undefined;
+    defaultWholeVerbage!: string | undefined;
+    defaultDecimalVerbage!: string | undefined;
+    invoiceCutOffDay!: number | undefined;
+    wipaccrual!: boolean;
+    includeWipbalance!: number | undefined;
+    checkDateFormat!: string | undefined;
+    smtpserver!: string | undefined;
+    smtpuserName!: string | undefined;
+    smtppassword!: string | undefined;
+    emailAddress!: string | undefined;
+    futureCutOffDate!: DateTime | undefined;
+    customerNo!: string | undefined;
+    changedBy!: string | undefined;
+    dateChanged!: DateTime | undefined;
+    image!: string | undefined;
+    useImage!: boolean;
+    nextControlNo!: number | undefined;
+    laborRounding!: number | undefined;
+    emailComments!: string | undefined;
+    smtpport!: number | undefined;
+    useUserId!: boolean | undefined;
+    eLiftUserName!: string | undefined;
+    eLiftPassword!: string | undefined;
+    eliftTest!: number | undefined;
+    mobileIncludeMisc!: number | undefined;
+    mobileIncludeTimes!: number | undefined;
+    mobileAutoDocCenter!: number | undefined;
+    mobileEmailAddress!: string | undefined;
+    smtpsecure!: boolean | undefined;
+    smtpsecureType!: number | undefined;
+    startTimeDefault!: DateTime | undefined;
+    noClearSignature!: number | undefined;
+    dispatchManualRefresh!: number | undefined;
+    quotePartsNa!: string | undefined;
+    mobileSuppressPartNo!: number | undefined;
+    mobileAddHours!: number | undefined;
+    office365!: number | undefined;
+    msexchange!: number | undefined;
+    qtoOallowPartialBo!: number | undefined;
+    hourMeterChangeAllowed!: number | undefined;
+    emailOption!: number | undefined;
+    usePayByCreditCard!: boolean;
+    creditCardVendor!: string | undefined;
+    authLogin!: string | undefined;
+    authPwd!: string | undefined;
+    lcount!: string | undefined;
+    tvhaccountNo!: string | undefined;
+    tvhkey!: string | undefined;
+    tvhcountry!: string | undefined;
+    tvhwarehouse!: string | undefined;
+    includeRawhours!: boolean;
+    quoteHoldParts!: number | undefined;
+    equipmentDeleteTest!: number | undefined;
+    qtoOpromptEachBo!: number | undefined;
+    eRentKey!: string | undefined;
+    pjtest!: boolean | undefined;
+    trailerFlag!: boolean | undefined;
+    disallowAutoPostCc!: boolean | undefined;
+    billTrustHost!: string | undefined;
+    billTrustUserName!: string | undefined;
+    billTrustPassword!: string | undefined;
+    billTrustPort!: string | undefined;
+    billTrustAgingDay!: number | undefined;
+    tenantId!: number;
+    isMigrated!: boolean;
+
+    constructor(data?: IGetCompanyDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.group1 = _data["group1"];
+            this.group2 = _data["group2"];
+            this.group3 = _data["group3"];
+            this.group4 = _data["group4"];
+            this.group5 = _data["group5"];
+            this.group6 = _data["group6"];
+            this.invoiceCopies = _data["invoiceCopies"];
+            this.lastInvoiceCopy = _data["lastInvoiceCopy"];
+            this.automaticInvoiceDate = _data["automaticInvoiceDate"];
+            this.partsCurrencyFormat = _data["partsCurrencyFormat"];
+            this.accountingPackage = _data["accountingPackage"];
+            this.accountingPath = _data["accountingPath"];
+            this.apcheckFormat = _data["apcheckFormat"];
+            this.nextPo = _data["nextPo"];
+            this.eqNextPo = _data["eqNextPo"];
+            this.currentFiscalStart = _data["currentFiscalStart"] ? DateTime.fromISO(_data["currentFiscalStart"].toString()) : <any>undefined;
+            this.retainedEarnings = _data["retainedEarnings"];
+            this.accountingCutoffDate = _data["accountingCutoffDate"] ? DateTime.fromISO(_data["accountingCutoffDate"].toString()) : <any>undefined;
+            this.printLaborSummary = _data["printLaborSummary"];
+            this.printSerialNo = _data["printSerialNo"];
+            this.printMake = _data["printMake"];
+            this.printModel = _data["printModel"];
+            this.printUnitNo = _data["printUnitNo"];
+            this.printModelGroup = _data["printModelGroup"];
+            this.printModelYear = _data["printModelYear"];
+            this.printStage = _data["printStage"];
+            this.printUpright = _data["printUpright"];
+            this.printDownHeight = _data["printDownHeight"];
+            this.printForks = _data["printForks"];
+            this.printAttachments = _data["printAttachments"];
+            this.printPower = _data["printPower"];
+            this.printTransmission = _data["printTransmission"];
+            this.printCapacity = _data["printCapacity"];
+            this.printTireType = _data["printTireType"];
+            this.printLbr = _data["printLbr"];
+            this.printEquipmentComments = _data["printEquipmentComments"];
+            this.defaultEquipmentComments = _data["defaultEquipmentComments"];
+            this.logoFile = _data["logoFile"];
+            this.autoSalesGroup = _data["autoSalesGroup"];
+            this.disableMilesCalculation = _data["disableMilesCalculation"];
+            this.invoiceComments = _data["invoiceComments"];
+            this.nextCustomerNo = _data["nextCustomerNo"];
+            this.defaultCustomerTerms = _data["defaultCustomerTerms"];
+            this.ltguruUserName = _data["ltguruUserName"];
+            this.ltguruPassword = _data["ltguruPassword"];
+            this.dealerNo = _data["dealerNo"];
+            this.intrupaDealerNo = _data["intrupaDealerNo"];
+            this.lpmdealerNo = _data["lpmdealerNo"];
+            this.contactFollowupDays = _data["contactFollowupDays"];
+            this.defaultWholeVerbage = _data["defaultWholeVerbage"];
+            this.defaultDecimalVerbage = _data["defaultDecimalVerbage"];
+            this.invoiceCutOffDay = _data["invoiceCutOffDay"];
+            this.wipaccrual = _data["wipaccrual"];
+            this.includeWipbalance = _data["includeWipbalance"];
+            this.checkDateFormat = _data["checkDateFormat"];
+            this.smtpserver = _data["smtpserver"];
+            this.smtpuserName = _data["smtpuserName"];
+            this.smtppassword = _data["smtppassword"];
+            this.emailAddress = _data["emailAddress"];
+            this.futureCutOffDate = _data["futureCutOffDate"] ? DateTime.fromISO(_data["futureCutOffDate"].toString()) : <any>undefined;
+            this.customerNo = _data["customerNo"];
+            this.changedBy = _data["changedBy"];
+            this.dateChanged = _data["dateChanged"] ? DateTime.fromISO(_data["dateChanged"].toString()) : <any>undefined;
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.nextControlNo = _data["nextControlNo"];
+            this.laborRounding = _data["laborRounding"];
+            this.emailComments = _data["emailComments"];
+            this.smtpport = _data["smtpport"];
+            this.useUserId = _data["useUserId"];
+            this.eLiftUserName = _data["eLiftUserName"];
+            this.eLiftPassword = _data["eLiftPassword"];
+            this.eliftTest = _data["eliftTest"];
+            this.mobileIncludeMisc = _data["mobileIncludeMisc"];
+            this.mobileIncludeTimes = _data["mobileIncludeTimes"];
+            this.mobileAutoDocCenter = _data["mobileAutoDocCenter"];
+            this.mobileEmailAddress = _data["mobileEmailAddress"];
+            this.smtpsecure = _data["smtpsecure"];
+            this.smtpsecureType = _data["smtpsecureType"];
+            this.startTimeDefault = _data["startTimeDefault"] ? DateTime.fromISO(_data["startTimeDefault"].toString()) : <any>undefined;
+            this.noClearSignature = _data["noClearSignature"];
+            this.dispatchManualRefresh = _data["dispatchManualRefresh"];
+            this.quotePartsNa = _data["quotePartsNa"];
+            this.mobileSuppressPartNo = _data["mobileSuppressPartNo"];
+            this.mobileAddHours = _data["mobileAddHours"];
+            this.office365 = _data["office365"];
+            this.msexchange = _data["msexchange"];
+            this.qtoOallowPartialBo = _data["qtoOallowPartialBo"];
+            this.hourMeterChangeAllowed = _data["hourMeterChangeAllowed"];
+            this.emailOption = _data["emailOption"];
+            this.usePayByCreditCard = _data["usePayByCreditCard"];
+            this.creditCardVendor = _data["creditCardVendor"];
+            this.authLogin = _data["authLogin"];
+            this.authPwd = _data["authPwd"];
+            this.lcount = _data["lcount"];
+            this.tvhaccountNo = _data["tvhaccountNo"];
+            this.tvhkey = _data["tvhkey"];
+            this.tvhcountry = _data["tvhcountry"];
+            this.tvhwarehouse = _data["tvhwarehouse"];
+            this.includeRawhours = _data["includeRawhours"];
+            this.quoteHoldParts = _data["quoteHoldParts"];
+            this.equipmentDeleteTest = _data["equipmentDeleteTest"];
+            this.qtoOpromptEachBo = _data["qtoOpromptEachBo"];
+            this.eRentKey = _data["eRentKey"];
+            this.pjtest = _data["pjtest"];
+            this.trailerFlag = _data["trailerFlag"];
+            this.disallowAutoPostCc = _data["disallowAutoPostCc"];
+            this.billTrustHost = _data["billTrustHost"];
+            this.billTrustUserName = _data["billTrustUserName"];
+            this.billTrustPassword = _data["billTrustPassword"];
+            this.billTrustPort = _data["billTrustPort"];
+            this.billTrustAgingDay = _data["billTrustAgingDay"];
+            this.tenantId = _data["tenantId"];
+            this.isMigrated = _data["isMigrated"];
+        }
+    }
+
+    static fromJS(data: any): GetCompanyDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCompanyDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["group1"] = this.group1;
+        data["group2"] = this.group2;
+        data["group3"] = this.group3;
+        data["group4"] = this.group4;
+        data["group5"] = this.group5;
+        data["group6"] = this.group6;
+        data["invoiceCopies"] = this.invoiceCopies;
+        data["lastInvoiceCopy"] = this.lastInvoiceCopy;
+        data["automaticInvoiceDate"] = this.automaticInvoiceDate;
+        data["partsCurrencyFormat"] = this.partsCurrencyFormat;
+        data["accountingPackage"] = this.accountingPackage;
+        data["accountingPath"] = this.accountingPath;
+        data["apcheckFormat"] = this.apcheckFormat;
+        data["nextPo"] = this.nextPo;
+        data["eqNextPo"] = this.eqNextPo;
+        data["currentFiscalStart"] = this.currentFiscalStart ? this.currentFiscalStart.toString() : <any>undefined;
+        data["retainedEarnings"] = this.retainedEarnings;
+        data["accountingCutoffDate"] = this.accountingCutoffDate ? this.accountingCutoffDate.toString() : <any>undefined;
+        data["printLaborSummary"] = this.printLaborSummary;
+        data["printSerialNo"] = this.printSerialNo;
+        data["printMake"] = this.printMake;
+        data["printModel"] = this.printModel;
+        data["printUnitNo"] = this.printUnitNo;
+        data["printModelGroup"] = this.printModelGroup;
+        data["printModelYear"] = this.printModelYear;
+        data["printStage"] = this.printStage;
+        data["printUpright"] = this.printUpright;
+        data["printDownHeight"] = this.printDownHeight;
+        data["printForks"] = this.printForks;
+        data["printAttachments"] = this.printAttachments;
+        data["printPower"] = this.printPower;
+        data["printTransmission"] = this.printTransmission;
+        data["printCapacity"] = this.printCapacity;
+        data["printTireType"] = this.printTireType;
+        data["printLbr"] = this.printLbr;
+        data["printEquipmentComments"] = this.printEquipmentComments;
+        data["defaultEquipmentComments"] = this.defaultEquipmentComments;
+        data["logoFile"] = this.logoFile;
+        data["autoSalesGroup"] = this.autoSalesGroup;
+        data["disableMilesCalculation"] = this.disableMilesCalculation;
+        data["invoiceComments"] = this.invoiceComments;
+        data["nextCustomerNo"] = this.nextCustomerNo;
+        data["defaultCustomerTerms"] = this.defaultCustomerTerms;
+        data["ltguruUserName"] = this.ltguruUserName;
+        data["ltguruPassword"] = this.ltguruPassword;
+        data["dealerNo"] = this.dealerNo;
+        data["intrupaDealerNo"] = this.intrupaDealerNo;
+        data["lpmdealerNo"] = this.lpmdealerNo;
+        data["contactFollowupDays"] = this.contactFollowupDays;
+        data["defaultWholeVerbage"] = this.defaultWholeVerbage;
+        data["defaultDecimalVerbage"] = this.defaultDecimalVerbage;
+        data["invoiceCutOffDay"] = this.invoiceCutOffDay;
+        data["wipaccrual"] = this.wipaccrual;
+        data["includeWipbalance"] = this.includeWipbalance;
+        data["checkDateFormat"] = this.checkDateFormat;
+        data["smtpserver"] = this.smtpserver;
+        data["smtpuserName"] = this.smtpuserName;
+        data["smtppassword"] = this.smtppassword;
+        data["emailAddress"] = this.emailAddress;
+        data["futureCutOffDate"] = this.futureCutOffDate ? this.futureCutOffDate.toString() : <any>undefined;
+        data["customerNo"] = this.customerNo;
+        data["changedBy"] = this.changedBy;
+        data["dateChanged"] = this.dateChanged ? this.dateChanged.toString() : <any>undefined;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["nextControlNo"] = this.nextControlNo;
+        data["laborRounding"] = this.laborRounding;
+        data["emailComments"] = this.emailComments;
+        data["smtpport"] = this.smtpport;
+        data["useUserId"] = this.useUserId;
+        data["eLiftUserName"] = this.eLiftUserName;
+        data["eLiftPassword"] = this.eLiftPassword;
+        data["eliftTest"] = this.eliftTest;
+        data["mobileIncludeMisc"] = this.mobileIncludeMisc;
+        data["mobileIncludeTimes"] = this.mobileIncludeTimes;
+        data["mobileAutoDocCenter"] = this.mobileAutoDocCenter;
+        data["mobileEmailAddress"] = this.mobileEmailAddress;
+        data["smtpsecure"] = this.smtpsecure;
+        data["smtpsecureType"] = this.smtpsecureType;
+        data["startTimeDefault"] = this.startTimeDefault ? this.startTimeDefault.toString() : <any>undefined;
+        data["noClearSignature"] = this.noClearSignature;
+        data["dispatchManualRefresh"] = this.dispatchManualRefresh;
+        data["quotePartsNa"] = this.quotePartsNa;
+        data["mobileSuppressPartNo"] = this.mobileSuppressPartNo;
+        data["mobileAddHours"] = this.mobileAddHours;
+        data["office365"] = this.office365;
+        data["msexchange"] = this.msexchange;
+        data["qtoOallowPartialBo"] = this.qtoOallowPartialBo;
+        data["hourMeterChangeAllowed"] = this.hourMeterChangeAllowed;
+        data["emailOption"] = this.emailOption;
+        data["usePayByCreditCard"] = this.usePayByCreditCard;
+        data["creditCardVendor"] = this.creditCardVendor;
+        data["authLogin"] = this.authLogin;
+        data["authPwd"] = this.authPwd;
+        data["lcount"] = this.lcount;
+        data["tvhaccountNo"] = this.tvhaccountNo;
+        data["tvhkey"] = this.tvhkey;
+        data["tvhcountry"] = this.tvhcountry;
+        data["tvhwarehouse"] = this.tvhwarehouse;
+        data["includeRawhours"] = this.includeRawhours;
+        data["quoteHoldParts"] = this.quoteHoldParts;
+        data["equipmentDeleteTest"] = this.equipmentDeleteTest;
+        data["qtoOpromptEachBo"] = this.qtoOpromptEachBo;
+        data["eRentKey"] = this.eRentKey;
+        data["pjtest"] = this.pjtest;
+        data["trailerFlag"] = this.trailerFlag;
+        data["disallowAutoPostCc"] = this.disallowAutoPostCc;
+        data["billTrustHost"] = this.billTrustHost;
+        data["billTrustUserName"] = this.billTrustUserName;
+        data["billTrustPassword"] = this.billTrustPassword;
+        data["billTrustPort"] = this.billTrustPort;
+        data["billTrustAgingDay"] = this.billTrustAgingDay;
+        data["tenantId"] = this.tenantId;
+        data["isMigrated"] = this.isMigrated;
+        return data; 
+    }
+}
+
+export interface IGetCompanyDto {
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    group1: string | undefined;
+    group2: string | undefined;
+    group3: string | undefined;
+    group4: string | undefined;
+    group5: string | undefined;
+    group6: string | undefined;
+    invoiceCopies: number | undefined;
+    lastInvoiceCopy: boolean;
+    automaticInvoiceDate: boolean;
+    partsCurrencyFormat: string | undefined;
+    accountingPackage: string | undefined;
+    accountingPath: string | undefined;
+    apcheckFormat: string | undefined;
+    nextPo: number | undefined;
+    eqNextPo: number | undefined;
+    currentFiscalStart: DateTime | undefined;
+    retainedEarnings: string | undefined;
+    accountingCutoffDate: DateTime | undefined;
+    printLaborSummary: boolean;
+    printSerialNo: boolean;
+    printMake: boolean;
+    printModel: boolean;
+    printUnitNo: boolean;
+    printModelGroup: boolean;
+    printModelYear: boolean;
+    printStage: boolean;
+    printUpright: boolean;
+    printDownHeight: boolean;
+    printForks: boolean;
+    printAttachments: boolean;
+    printPower: boolean;
+    printTransmission: boolean;
+    printCapacity: boolean;
+    printTireType: boolean;
+    printLbr: boolean;
+    printEquipmentComments: boolean;
+    defaultEquipmentComments: string | undefined;
+    logoFile: string | undefined;
+    autoSalesGroup: boolean;
+    disableMilesCalculation: boolean;
+    invoiceComments: string | undefined;
+    nextCustomerNo: number | undefined;
+    defaultCustomerTerms: string | undefined;
+    ltguruUserName: string | undefined;
+    ltguruPassword: string | undefined;
+    dealerNo: string | undefined;
+    intrupaDealerNo: string | undefined;
+    lpmdealerNo: string | undefined;
+    contactFollowupDays: number | undefined;
+    defaultWholeVerbage: string | undefined;
+    defaultDecimalVerbage: string | undefined;
+    invoiceCutOffDay: number | undefined;
+    wipaccrual: boolean;
+    includeWipbalance: number | undefined;
+    checkDateFormat: string | undefined;
+    smtpserver: string | undefined;
+    smtpuserName: string | undefined;
+    smtppassword: string | undefined;
+    emailAddress: string | undefined;
+    futureCutOffDate: DateTime | undefined;
+    customerNo: string | undefined;
+    changedBy: string | undefined;
+    dateChanged: DateTime | undefined;
+    image: string | undefined;
+    useImage: boolean;
+    nextControlNo: number | undefined;
+    laborRounding: number | undefined;
+    emailComments: string | undefined;
+    smtpport: number | undefined;
+    useUserId: boolean | undefined;
+    eLiftUserName: string | undefined;
+    eLiftPassword: string | undefined;
+    eliftTest: number | undefined;
+    mobileIncludeMisc: number | undefined;
+    mobileIncludeTimes: number | undefined;
+    mobileAutoDocCenter: number | undefined;
+    mobileEmailAddress: string | undefined;
+    smtpsecure: boolean | undefined;
+    smtpsecureType: number | undefined;
+    startTimeDefault: DateTime | undefined;
+    noClearSignature: number | undefined;
+    dispatchManualRefresh: number | undefined;
+    quotePartsNa: string | undefined;
+    mobileSuppressPartNo: number | undefined;
+    mobileAddHours: number | undefined;
+    office365: number | undefined;
+    msexchange: number | undefined;
+    qtoOallowPartialBo: number | undefined;
+    hourMeterChangeAllowed: number | undefined;
+    emailOption: number | undefined;
+    usePayByCreditCard: boolean;
+    creditCardVendor: string | undefined;
+    authLogin: string | undefined;
+    authPwd: string | undefined;
+    lcount: string | undefined;
+    tvhaccountNo: string | undefined;
+    tvhkey: string | undefined;
+    tvhcountry: string | undefined;
+    tvhwarehouse: string | undefined;
+    includeRawhours: boolean;
+    quoteHoldParts: number | undefined;
+    equipmentDeleteTest: number | undefined;
+    qtoOpromptEachBo: number | undefined;
+    eRentKey: string | undefined;
+    pjtest: boolean | undefined;
+    trailerFlag: boolean | undefined;
+    disallowAutoPostCc: boolean | undefined;
+    billTrustHost: string | undefined;
+    billTrustUserName: string | undefined;
+    billTrustPassword: string | undefined;
+    billTrustPort: string | undefined;
+    billTrustAgingDay: number | undefined;
+    tenantId: number;
+    isMigrated: boolean;
+}
+
+export class GetCompanyForEditDto implements IGetCompanyForEditDto {
+    company!: CompanyDto;
+    additionalPropertyA!: string | undefined;
+    additionalPropertyB!: string | undefined;
+
+    constructor(data?: IGetCompanyForEditDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.company = _data["company"] ? CompanyDto.fromJS(_data["company"]) : <any>undefined;
+            this.additionalPropertyA = _data["additionalPropertyA"];
+            this.additionalPropertyB = _data["additionalPropertyB"];
+        }
+    }
+
+    static fromJS(data: any): GetCompanyForEditDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCompanyForEditDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["company"] = this.company ? this.company.toJSON() : <any>undefined;
+        data["additionalPropertyA"] = this.additionalPropertyA;
+        data["additionalPropertyB"] = this.additionalPropertyB;
+        return data; 
+    }
+}
+
+export interface IGetCompanyForEditDto {
+    company: CompanyDto;
+    additionalPropertyA: string | undefined;
+    additionalPropertyB: string | undefined;
+}
+
+export class GetCompanyQuery implements IGetCompanyQuery {
+
+    constructor(data?: IGetCompanyQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): GetCompanyQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetCompanyQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IGetCompanyQuery {
 }
 
 export class GetContactForEditOutput implements IGetContactForEditOutput {
@@ -40477,6 +45337,86 @@ export interface IGetSalesSummaryOutput {
     salesSummary: SalesSummaryData[] | undefined;
 }
 
+export class GetTaxTabInitialDataDto implements IGetTaxTabInitialDataDto {
+    stateTaxCodes!: StateTaxCodeInBranchDto[] | undefined;
+    countyTaxCodes!: CountyTaxCodeInBranchDto[] | undefined;
+    cityTaxCodes!: CityTaxCodeInBranchDto[] | undefined;
+    localTaxCodes!: LocalTaxCodeInBranchDto[] | undefined;
+
+    constructor(data?: IGetTaxTabInitialDataDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            if (Array.isArray(_data["stateTaxCodes"])) {
+                this.stateTaxCodes = [] as any;
+                for (let item of _data["stateTaxCodes"])
+                    this.stateTaxCodes!.push(StateTaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["countyTaxCodes"])) {
+                this.countyTaxCodes = [] as any;
+                for (let item of _data["countyTaxCodes"])
+                    this.countyTaxCodes!.push(CountyTaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["cityTaxCodes"])) {
+                this.cityTaxCodes = [] as any;
+                for (let item of _data["cityTaxCodes"])
+                    this.cityTaxCodes!.push(CityTaxCodeInBranchDto.fromJS(item));
+            }
+            if (Array.isArray(_data["localTaxCodes"])) {
+                this.localTaxCodes = [] as any;
+                for (let item of _data["localTaxCodes"])
+                    this.localTaxCodes!.push(LocalTaxCodeInBranchDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): GetTaxTabInitialDataDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetTaxTabInitialDataDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        if (Array.isArray(this.stateTaxCodes)) {
+            data["stateTaxCodes"] = [];
+            for (let item of this.stateTaxCodes)
+                data["stateTaxCodes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.countyTaxCodes)) {
+            data["countyTaxCodes"] = [];
+            for (let item of this.countyTaxCodes)
+                data["countyTaxCodes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.cityTaxCodes)) {
+            data["cityTaxCodes"] = [];
+            for (let item of this.cityTaxCodes)
+                data["cityTaxCodes"].push(item.toJSON());
+        }
+        if (Array.isArray(this.localTaxCodes)) {
+            data["localTaxCodes"] = [];
+            for (let item of this.localTaxCodes)
+                data["localTaxCodes"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IGetTaxTabInitialDataDto {
+    stateTaxCodes: StateTaxCodeInBranchDto[] | undefined;
+    countyTaxCodes: CountyTaxCodeInBranchDto[] | undefined;
+    cityTaxCodes: CityTaxCodeInBranchDto[] | undefined;
+    localTaxCodes: LocalTaxCodeInBranchDto[] | undefined;
+}
+
 export class GetTenantFeaturesEditOutput implements IGetTenantFeaturesEditOutput {
     featureValues!: NameValueDto[] | undefined;
     features!: FlatFeatureDto[] | undefined;
@@ -40829,6 +45769,250 @@ export interface IGetUsersInput {
     skipCount: number;
 }
 
+export class GetVerifyAddressDto implements IGetVerifyAddressDto {
+    checkUseDefaultTaxCodeCalc!: boolean;
+    city!: string | undefined;
+    country!: string | undefined;
+    zipCode!: string | undefined;
+    state!: string | undefined;
+    address!: string | undefined;
+
+    constructor(data?: IGetVerifyAddressDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.checkUseDefaultTaxCodeCalc = _data["checkUseDefaultTaxCodeCalc"];
+            this.city = _data["city"];
+            this.country = _data["country"];
+            this.zipCode = _data["zipCode"];
+            this.state = _data["state"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): GetVerifyAddressDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetVerifyAddressDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["checkUseDefaultTaxCodeCalc"] = this.checkUseDefaultTaxCodeCalc;
+        data["city"] = this.city;
+        data["country"] = this.country;
+        data["zipCode"] = this.zipCode;
+        data["state"] = this.state;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface IGetVerifyAddressDto {
+    checkUseDefaultTaxCodeCalc: boolean;
+    city: string | undefined;
+    country: string | undefined;
+    zipCode: string | undefined;
+    state: string | undefined;
+    address: string | undefined;
+}
+
+export class GetVerifyAddressInputDto implements IGetVerifyAddressInputDto {
+    city!: string | undefined;
+    country!: string | undefined;
+    zipCode!: string | undefined;
+    state!: string | undefined;
+    address!: string | undefined;
+
+    constructor(data?: IGetVerifyAddressInputDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.city = _data["city"];
+            this.country = _data["country"];
+            this.zipCode = _data["zipCode"];
+            this.state = _data["state"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): GetVerifyAddressInputDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetVerifyAddressInputDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["city"] = this.city;
+        data["country"] = this.country;
+        data["zipCode"] = this.zipCode;
+        data["state"] = this.state;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface IGetVerifyAddressInputDto {
+    city: string | undefined;
+    country: string | undefined;
+    zipCode: string | undefined;
+    state: string | undefined;
+    address: string | undefined;
+}
+
+export class GetVerifyAddressQuery implements IGetVerifyAddressQuery {
+    city!: string | undefined;
+    country!: string | undefined;
+    zipCode!: string | undefined;
+    state!: string | undefined;
+    address!: string | undefined;
+
+    constructor(data?: IGetVerifyAddressQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.city = _data["city"];
+            this.country = _data["country"];
+            this.zipCode = _data["zipCode"];
+            this.state = _data["state"];
+            this.address = _data["address"];
+        }
+    }
+
+    static fromJS(data: any): GetVerifyAddressQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetVerifyAddressQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["city"] = this.city;
+        data["country"] = this.country;
+        data["zipCode"] = this.zipCode;
+        data["state"] = this.state;
+        data["address"] = this.address;
+        return data; 
+    }
+}
+
+export interface IGetVerifyAddressQuery {
+    city: string | undefined;
+    country: string | undefined;
+    zipCode: string | undefined;
+    state: string | undefined;
+    address: string | undefined;
+}
+
+export class GetZipCodeDetailsDto implements IGetZipCodeDetailsDto {
+    city!: string | undefined;
+    state!: string | undefined;
+
+    constructor(data?: IGetZipCodeDetailsDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.city = _data["city"];
+            this.state = _data["state"];
+        }
+    }
+
+    static fromJS(data: any): GetZipCodeDetailsDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetZipCodeDetailsDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["city"] = this.city;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IGetZipCodeDetailsDto {
+    city: string | undefined;
+    state: string | undefined;
+}
+
+export class GetZipCodeDto implements IGetZipCodeDto {
+    zipCode!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+
+    constructor(data?: IGetZipCodeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.zipCode = _data["zipCode"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+        }
+    }
+
+    static fromJS(data: any): GetZipCodeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetZipCodeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["zipCode"] = this.zipCode;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        return data; 
+    }
+}
+
+export interface IGetZipCodeDto {
+    zipCode: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+}
+
 export class GetZipCodeForViewDto implements IGetZipCodeForViewDto {
     zipCode!: ZipCodeDto;
 
@@ -40863,6 +46047,42 @@ export class GetZipCodeForViewDto implements IGetZipCodeForViewDto {
 
 export interface IGetZipCodeForViewDto {
     zipCode: ZipCodeDto;
+}
+
+export class GetZipCodeQuery implements IGetZipCodeQuery {
+    zipCode!: string | undefined;
+
+    constructor(data?: IGetZipCodeQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.zipCode = _data["zipCode"];
+        }
+    }
+
+    static fromJS(data: any): GetZipCodeQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new GetZipCodeQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["zipCode"] = this.zipCode;
+        return data; 
+    }
+}
+
+export interface IGetZipCodeQuery {
+    zipCode: string | undefined;
 }
 
 export enum GlobalSearchCategory {
@@ -43600,6 +48820,46 @@ export interface ILocalizableComboboxItemSourceDto {
     items: LocalizableComboboxItemDto[] | undefined;
 }
 
+export class LocalTaxCodeInBranchDto implements ILocalTaxCodeInBranchDto {
+    id!: number;
+    taxCode!: string | undefined;
+
+    constructor(data?: ILocalTaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.taxCode = _data["taxCode"];
+        }
+    }
+
+    static fromJS(data: any): LocalTaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new LocalTaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["taxCode"] = this.taxCode;
+        return data; 
+    }
+}
+
+export interface ILocalTaxCodeInBranchDto {
+    id: number;
+    taxCode: string | undefined;
+}
+
 export class MarkAllUnreadMessagesOfUserAsReadInput implements IMarkAllUnreadMessagesOfUserAsReadInput {
     tenantId!: number | undefined;
     userId!: number;
@@ -45142,6 +50402,54 @@ export class PagedResultDtoOfAuditLogListDto implements IPagedResultDtoOfAuditLo
 export interface IPagedResultDtoOfAuditLogListDto {
     totalCount: number;
     items: AuditLogListDto[] | undefined;
+}
+
+export class PagedResultDtoOfBranchListItemDto implements IPagedResultDtoOfBranchListItemDto {
+    totalCount!: number;
+    items!: BranchListItemDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfBranchListItemDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(BranchListItemDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfBranchListItemDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfBranchListItemDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfBranchListItemDto {
+    totalCount: number;
+    items: BranchListItemDto[] | undefined;
 }
 
 export class PagedResultDtoOfCustomerEquipmentViewDto implements IPagedResultDtoOfCustomerEquipmentViewDto {
@@ -46968,6 +52276,54 @@ export interface IPagedResultDtoOfSubscriptionPaymentListDto {
     items: SubscriptionPaymentListDto[] | undefined;
 }
 
+export class PagedResultDtoOfTaxCodeDto implements IPagedResultDtoOfTaxCodeDto {
+    totalCount!: number;
+    items!: TaxCodeDto[] | undefined;
+
+    constructor(data?: IPagedResultDtoOfTaxCodeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.totalCount = _data["totalCount"];
+            if (Array.isArray(_data["items"])) {
+                this.items = [] as any;
+                for (let item of _data["items"])
+                    this.items!.push(TaxCodeDto.fromJS(item));
+            }
+        }
+    }
+
+    static fromJS(data: any): PagedResultDtoOfTaxCodeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new PagedResultDtoOfTaxCodeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["totalCount"] = this.totalCount;
+        if (Array.isArray(this.items)) {
+            data["items"] = [];
+            for (let item of this.items)
+                data["items"].push(item.toJSON());
+        }
+        return data; 
+    }
+}
+
+export interface IPagedResultDtoOfTaxCodeDto {
+    totalCount: number;
+    items: TaxCodeDto[] | undefined;
+}
+
 export class PagedResultDtoOfTenantListDto implements IPagedResultDtoOfTenantListDto {
     totalCount!: number;
     items!: TenantListDto[] | undefined;
@@ -47210,6 +52566,66 @@ export interface IPasswordComplexitySetting {
     requireNonAlphanumeric: boolean;
     requireUppercase: boolean;
     requiredLength: number;
+}
+
+export class PatchBranchCurrencyTypeCommand implements IPatchBranchCurrencyTypeCommand {
+    branchId!: number;
+    currencyTypeId!: number;
+    arAccountNo!: string | undefined;
+    debitAccount!: string | undefined;
+    creditAccount!: string | undefined;
+    debitAccountReevaluate!: string | undefined;
+    creditAccountReevaluate!: string | undefined;
+
+    constructor(data?: IPatchBranchCurrencyTypeCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.branchId = _data["branchId"];
+            this.currencyTypeId = _data["currencyTypeId"];
+            this.arAccountNo = _data["arAccountNo"];
+            this.debitAccount = _data["debitAccount"];
+            this.creditAccount = _data["creditAccount"];
+            this.debitAccountReevaluate = _data["debitAccountReevaluate"];
+            this.creditAccountReevaluate = _data["creditAccountReevaluate"];
+        }
+    }
+
+    static fromJS(data: any): PatchBranchCurrencyTypeCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new PatchBranchCurrencyTypeCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["branchId"] = this.branchId;
+        data["currencyTypeId"] = this.currencyTypeId;
+        data["arAccountNo"] = this.arAccountNo;
+        data["debitAccount"] = this.debitAccount;
+        data["creditAccount"] = this.creditAccount;
+        data["debitAccountReevaluate"] = this.debitAccountReevaluate;
+        data["creditAccountReevaluate"] = this.creditAccountReevaluate;
+        return data; 
+    }
+}
+
+export interface IPatchBranchCurrencyTypeCommand {
+    branchId: number;
+    currencyTypeId: number;
+    arAccountNo: string | undefined;
+    debitAccount: string | undefined;
+    creditAccount: string | undefined;
+    debitAccountReevaluate: string | undefined;
+    creditAccountReevaluate: string | undefined;
 }
 
 export class PaymentGatewayModel implements IPaymentGatewayModel {
@@ -48145,6 +53561,160 @@ export enum SalesSummaryDatePeriod {
     Monthly = 3,
 }
 
+export class SalesTaxIntegrationDto implements ISalesTaxIntegrationDto {
+    id!: number;
+    tenantId!: number;
+    legacyId!: number | undefined;
+    salesTaxProvider!: string | undefined;
+    accountNumber!: string | undefined;
+    licenseKey!: string | undefined;
+    serviceUrl!: string | undefined;
+    companyCode!: string | undefined;
+    requestTimeout!: number;
+    disableAddressVerification!: boolean | undefined;
+    disableDocumentRecording!: boolean | undefined;
+    enableLogging!: boolean | undefined;
+    enableAvataxUpc!: boolean | undefined;
+    defaultTaxCodesParts!: string | undefined;
+    defaultTaxCodesPartsDesc!: string | undefined;
+    defaultTaxCodesLabor!: string | undefined;
+    defaultTaxCodesLaborDesc!: string | undefined;
+    defaultTaxCodesMisc!: string | undefined;
+    defaultTaxCodesMiscDesc!: string | undefined;
+    defaultTaxCodesRental!: string | undefined;
+    defaultTaxCodesRentalDesc!: string | undefined;
+    defaultTaxCodesEquip!: string | undefined;
+    defaultTaxCodesEquipDesc!: string | undefined;
+
+    constructor(data?: ISalesTaxIntegrationDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.tenantId = _data["tenantId"];
+            this.legacyId = _data["legacyId"];
+            this.salesTaxProvider = _data["salesTaxProvider"];
+            this.accountNumber = _data["accountNumber"];
+            this.licenseKey = _data["licenseKey"];
+            this.serviceUrl = _data["serviceUrl"];
+            this.companyCode = _data["companyCode"];
+            this.requestTimeout = _data["requestTimeout"];
+            this.disableAddressVerification = _data["disableAddressVerification"];
+            this.disableDocumentRecording = _data["disableDocumentRecording"];
+            this.enableLogging = _data["enableLogging"];
+            this.enableAvataxUpc = _data["enableAvataxUpc"];
+            this.defaultTaxCodesParts = _data["defaultTaxCodesParts"];
+            this.defaultTaxCodesPartsDesc = _data["defaultTaxCodesPartsDesc"];
+            this.defaultTaxCodesLabor = _data["defaultTaxCodesLabor"];
+            this.defaultTaxCodesLaborDesc = _data["defaultTaxCodesLaborDesc"];
+            this.defaultTaxCodesMisc = _data["defaultTaxCodesMisc"];
+            this.defaultTaxCodesMiscDesc = _data["defaultTaxCodesMiscDesc"];
+            this.defaultTaxCodesRental = _data["defaultTaxCodesRental"];
+            this.defaultTaxCodesRentalDesc = _data["defaultTaxCodesRentalDesc"];
+            this.defaultTaxCodesEquip = _data["defaultTaxCodesEquip"];
+            this.defaultTaxCodesEquipDesc = _data["defaultTaxCodesEquipDesc"];
+        }
+    }
+
+    static fromJS(data: any): SalesTaxIntegrationDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new SalesTaxIntegrationDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["tenantId"] = this.tenantId;
+        data["legacyId"] = this.legacyId;
+        data["salesTaxProvider"] = this.salesTaxProvider;
+        data["accountNumber"] = this.accountNumber;
+        data["licenseKey"] = this.licenseKey;
+        data["serviceUrl"] = this.serviceUrl;
+        data["companyCode"] = this.companyCode;
+        data["requestTimeout"] = this.requestTimeout;
+        data["disableAddressVerification"] = this.disableAddressVerification;
+        data["disableDocumentRecording"] = this.disableDocumentRecording;
+        data["enableLogging"] = this.enableLogging;
+        data["enableAvataxUpc"] = this.enableAvataxUpc;
+        data["defaultTaxCodesParts"] = this.defaultTaxCodesParts;
+        data["defaultTaxCodesPartsDesc"] = this.defaultTaxCodesPartsDesc;
+        data["defaultTaxCodesLabor"] = this.defaultTaxCodesLabor;
+        data["defaultTaxCodesLaborDesc"] = this.defaultTaxCodesLaborDesc;
+        data["defaultTaxCodesMisc"] = this.defaultTaxCodesMisc;
+        data["defaultTaxCodesMiscDesc"] = this.defaultTaxCodesMiscDesc;
+        data["defaultTaxCodesRental"] = this.defaultTaxCodesRental;
+        data["defaultTaxCodesRentalDesc"] = this.defaultTaxCodesRentalDesc;
+        data["defaultTaxCodesEquip"] = this.defaultTaxCodesEquip;
+        data["defaultTaxCodesEquipDesc"] = this.defaultTaxCodesEquipDesc;
+        return data; 
+    }
+}
+
+export interface ISalesTaxIntegrationDto {
+    id: number;
+    tenantId: number;
+    legacyId: number | undefined;
+    salesTaxProvider: string | undefined;
+    accountNumber: string | undefined;
+    licenseKey: string | undefined;
+    serviceUrl: string | undefined;
+    companyCode: string | undefined;
+    requestTimeout: number;
+    disableAddressVerification: boolean | undefined;
+    disableDocumentRecording: boolean | undefined;
+    enableLogging: boolean | undefined;
+    enableAvataxUpc: boolean | undefined;
+    defaultTaxCodesParts: string | undefined;
+    defaultTaxCodesPartsDesc: string | undefined;
+    defaultTaxCodesLabor: string | undefined;
+    defaultTaxCodesLaborDesc: string | undefined;
+    defaultTaxCodesMisc: string | undefined;
+    defaultTaxCodesMiscDesc: string | undefined;
+    defaultTaxCodesRental: string | undefined;
+    defaultTaxCodesRentalDesc: string | undefined;
+    defaultTaxCodesEquip: string | undefined;
+    defaultTaxCodesEquipDesc: string | undefined;
+}
+
+export class SalesTaxIntegrationQuery implements ISalesTaxIntegrationQuery {
+
+    constructor(data?: ISalesTaxIntegrationQuery) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): SalesTaxIntegrationQuery {
+        data = typeof data === 'object' ? data : {};
+        let result = new SalesTaxIntegrationQuery();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface ISalesTaxIntegrationQuery {
+}
+
 export class SavePageInput implements ISavePageInput {
     dashboardName!: string | undefined;
     application!: string | undefined;
@@ -48526,6 +54096,46 @@ export enum SettingScopes {
     Tenant = 2,
     User = 4,
     All = 7,
+}
+
+export class StateTaxCodeInBranchDto implements IStateTaxCodeInBranchDto {
+    id!: number;
+    taxCode!: string | undefined;
+
+    constructor(data?: IStateTaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.taxCode = _data["taxCode"];
+        }
+    }
+
+    static fromJS(data: any): StateTaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new StateTaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["taxCode"] = this.taxCode;
+        return data; 
+    }
+}
+
+export interface IStateTaxCodeInBranchDto {
+    id: number;
+    taxCode: string | undefined;
 }
 
 export class StringOutput implements IStringOutput {
@@ -49075,6 +54685,146 @@ export class SwitchToLinkedAccountOutput implements ISwitchToLinkedAccountOutput
 export interface ISwitchToLinkedAccountOutput {
     switchAccountToken: string | undefined;
     tenancyName: string | undefined;
+}
+
+export class TaxCodeDto implements ITaxCodeDto {
+    id!: number;
+    companyId!: number;
+    taxCode!: string | undefined;
+    taxCodeTypeId!: string | undefined;
+    description!: string | undefined;
+    parentTaxCode!: string | undefined;
+    isActive!: boolean;
+
+    constructor(data?: ITaxCodeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.companyId = _data["companyId"];
+            this.taxCode = _data["taxCode"];
+            this.taxCodeTypeId = _data["taxCodeTypeId"];
+            this.description = _data["description"];
+            this.parentTaxCode = _data["parentTaxCode"];
+            this.isActive = _data["isActive"];
+        }
+    }
+
+    static fromJS(data: any): TaxCodeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaxCodeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["companyId"] = this.companyId;
+        data["taxCode"] = this.taxCode;
+        data["taxCodeTypeId"] = this.taxCodeTypeId;
+        data["description"] = this.description;
+        data["parentTaxCode"] = this.parentTaxCode;
+        data["isActive"] = this.isActive;
+        return data; 
+    }
+}
+
+export interface ITaxCodeDto {
+    id: number;
+    companyId: number;
+    taxCode: string | undefined;
+    taxCodeTypeId: string | undefined;
+    description: string | undefined;
+    parentTaxCode: string | undefined;
+    isActive: boolean;
+}
+
+export class TaxCodeInBranchDto implements ITaxCodeInBranchDto {
+    id!: number;
+    code!: string | undefined;
+
+    constructor(data?: ITaxCodeInBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.code = _data["code"];
+        }
+    }
+
+    static fromJS(data: any): TaxCodeInBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaxCodeInBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["code"] = this.code;
+        return data; 
+    }
+}
+
+export interface ITaxCodeInBranchDto {
+    id: number;
+    code: string | undefined;
+}
+
+export class TaxCodeTypeDto implements ITaxCodeTypeDto {
+    type!: string | undefined;
+    description!: string | undefined;
+
+    constructor(data?: ITaxCodeTypeDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.type = _data["type"];
+            this.description = _data["description"];
+        }
+    }
+
+    static fromJS(data: any): TaxCodeTypeDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TaxCodeTypeDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["type"] = this.type;
+        data["description"] = this.description;
+        return data; 
+    }
+}
+
+export interface ITaxCodeTypeDto {
+    type: string | undefined;
+    description: string | undefined;
 }
 
 export enum TenantAvailabilityState {
@@ -50107,6 +55857,46 @@ export interface ITopStatsData {
     dashboardPlaceholder2: number;
 }
 
+export class TvhWarehouseLookupDto implements ITvhWarehouseLookupDto {
+    key!: number;
+    name!: string | undefined;
+
+    constructor(data?: ITvhWarehouseLookupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.key = _data["key"];
+            this.name = _data["name"];
+        }
+    }
+
+    static fromJS(data: any): TvhWarehouseLookupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new TvhWarehouseLookupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["key"] = this.key;
+        data["name"] = this.name;
+        return data; 
+    }
+}
+
+export interface ITvhWarehouseLookupDto {
+    key: number;
+    name: string | undefined;
+}
+
 export class TwitterExternalLoginProviderSettings implements ITwitterExternalLoginProviderSettings {
     consumerKey!: string | undefined;
     consumerSecret!: string | undefined;
@@ -50391,6 +56181,36 @@ export interface IUnblockUserInput {
     tenantId: number | undefined;
 }
 
+export class Unit implements IUnit {
+
+    constructor(data?: IUnit) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+    }
+
+    static fromJS(data: any): Unit {
+        data = typeof data === 'object' ? data : {};
+        let result = new Unit();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        return data; 
+    }
+}
+
+export interface IUnit {
+}
+
 export class UnlinkUserInput implements IUnlinkUserInput {
     tenantId!: number | undefined;
     userId!: number;
@@ -50429,6 +56249,86 @@ export class UnlinkUserInput implements IUnlinkUserInput {
 export interface IUnlinkUserInput {
     tenantId: number | undefined;
     userId: number;
+}
+
+export class UpdateAdditionalChargesCommand implements IUpdateAdditionalChargesCommand {
+    additionalCharge!: AdditionalChargeDto;
+    id!: number;
+
+    constructor(data?: IUpdateAdditionalChargesCommand) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.additionalCharge = _data["additionalCharge"] ? AdditionalChargeDto.fromJS(_data["additionalCharge"]) : <any>undefined;
+            this.id = _data["id"];
+        }
+    }
+
+    static fromJS(data: any): UpdateAdditionalChargesCommand {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateAdditionalChargesCommand();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["additionalCharge"] = this.additionalCharge ? this.additionalCharge.toJSON() : <any>undefined;
+        data["id"] = this.id;
+        return data; 
+    }
+}
+
+export interface IUpdateAdditionalChargesCommand {
+    additionalCharge: AdditionalChargeDto;
+    id: number;
+}
+
+export class UpdateCommonSettingsInput implements IUpdateCommonSettingsInput {
+    settingName!: string;
+    settingValue!: string;
+
+    constructor(data?: IUpdateCommonSettingsInput) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.settingName = _data["settingName"];
+            this.settingValue = _data["settingValue"];
+        }
+    }
+
+    static fromJS(data: any): UpdateCommonSettingsInput {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpdateCommonSettingsInput();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["settingName"] = this.settingName;
+        data["settingValue"] = this.settingValue;
+        return data; 
+    }
+}
+
+export interface IUpdateCommonSettingsInput {
+    settingName: string;
+    settingValue: string;
 }
 
 export class UpdateEditionDto implements IUpdateEditionDto {
@@ -51017,6 +56917,250 @@ export interface IUpdateUserSignInTokenOutput {
     encodedTenantId: string | undefined;
 }
 
+export class UpsertBranchDto implements IUpsertBranchDto {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    country!: string | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCode!: string | undefined;
+    countyTaxCode!: string | undefined;
+    cityTaxCode!: string | undefined;
+    localTaxCode!: string | undefined;
+    taxCode!: string | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.country = _data["country"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCode = _data["stateTaxCode"];
+            this.countyTaxCode = _data["countyTaxCode"];
+            this.cityTaxCode = _data["cityTaxCode"];
+            this.localTaxCode = _data["localTaxCode"];
+            this.taxCode = _data["taxCode"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["country"] = this.country;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCode"] = this.stateTaxCode;
+        data["countyTaxCode"] = this.countyTaxCode;
+        data["cityTaxCode"] = this.cityTaxCode;
+        data["localTaxCode"] = this.localTaxCode;
+        data["taxCode"] = this.taxCode;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    country: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouse: string | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCode: string | undefined;
+    countyTaxCode: string | undefined;
+    cityTaxCode: string | undefined;
+    localTaxCode: string | undefined;
+    taxCode: string | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
+}
+
 export class UserAssignedDto implements IUserAssignedDto {
     name!: string | undefined;
     surname!: string | undefined;
@@ -51478,6 +57622,8 @@ export class UserNotification implements IUserNotification {
     userId!: number;
     state!: UserNotificationState;
     notification!: TenantNotification;
+    targetNotifiers!: string | undefined;
+    readonly targetNotifiersList!: string[] | undefined;
     id!: string;
 
     constructor(data?: IUserNotification) {
@@ -51495,6 +57641,12 @@ export class UserNotification implements IUserNotification {
             this.userId = _data["userId"];
             this.state = _data["state"];
             this.notification = _data["notification"] ? TenantNotification.fromJS(_data["notification"]) : <any>undefined;
+            this.targetNotifiers = _data["targetNotifiers"];
+            if (Array.isArray(_data["targetNotifiersList"])) {
+                (<any>this).targetNotifiersList = [] as any;
+                for (let item of _data["targetNotifiersList"])
+                    (<any>this).targetNotifiersList!.push(item);
+            }
             this.id = _data["id"];
         }
     }
@@ -51512,6 +57664,12 @@ export class UserNotification implements IUserNotification {
         data["userId"] = this.userId;
         data["state"] = this.state;
         data["notification"] = this.notification ? this.notification.toJSON() : <any>undefined;
+        data["targetNotifiers"] = this.targetNotifiers;
+        if (Array.isArray(this.targetNotifiersList)) {
+            data["targetNotifiersList"] = [];
+            for (let item of this.targetNotifiersList)
+                data["targetNotifiersList"].push(item);
+        }
         data["id"] = this.id;
         return data; 
     }
@@ -51522,6 +57680,8 @@ export interface IUserNotification {
     userId: number;
     state: UserNotificationState;
     notification: TenantNotification;
+    targetNotifiers: string | undefined;
+    targetNotifiersList: string[] | undefined;
     id: string;
 }
 
@@ -51668,6 +57828,46 @@ export class VerifySmsCodeInputDto implements IVerifySmsCodeInputDto {
 export interface IVerifySmsCodeInputDto {
     code: string | undefined;
     phoneNumber: string | undefined;
+}
+
+export class WarehouseLookupDto implements IWarehouseLookupDto {
+    id!: number;
+    warehouse!: string | undefined;
+
+    constructor(data?: IWarehouseLookupDto) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.warehouse = _data["warehouse"];
+        }
+    }
+
+    static fromJS(data: any): WarehouseLookupDto {
+        data = typeof data === 'object' ? data : {};
+        let result = new WarehouseLookupDto();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["warehouse"] = this.warehouse;
+        return data; 
+    }
+}
+
+export interface IWarehouseLookupDto {
+    id: number;
+    warehouse: string | undefined;
 }
 
 export class WebhookEvent implements IWebhookEvent {
@@ -52074,6 +58274,494 @@ export interface IZipCodeDto {
     dateChanged: DateTime | undefined;
 }
 
+export class UpsertBranchDto2 implements IUpsertBranchDto2 {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    country!: string | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCode!: string | undefined;
+    countyTaxCode!: string | undefined;
+    cityTaxCode!: string | undefined;
+    localTaxCode!: string | undefined;
+    taxCode!: string | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto2) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.country = _data["country"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCode = _data["stateTaxCode"];
+            this.countyTaxCode = _data["countyTaxCode"];
+            this.cityTaxCode = _data["cityTaxCode"];
+            this.localTaxCode = _data["localTaxCode"];
+            this.taxCode = _data["taxCode"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto2 {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto2();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["country"] = this.country;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCode"] = this.stateTaxCode;
+        data["countyTaxCode"] = this.countyTaxCode;
+        data["cityTaxCode"] = this.cityTaxCode;
+        data["localTaxCode"] = this.localTaxCode;
+        data["taxCode"] = this.taxCode;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto2 {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    country: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouse: string | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCode: string | undefined;
+    countyTaxCode: string | undefined;
+    cityTaxCode: string | undefined;
+    localTaxCode: string | undefined;
+    taxCode: string | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
+}
+
+export class UpsertBranchDto3 implements IUpsertBranchDto3 {
+    id!: number;
+    number!: number;
+    name!: string | undefined;
+    subName!: string | undefined;
+    address!: string | undefined;
+    city!: string | undefined;
+    state!: string | undefined;
+    zipCode!: string | undefined;
+    country!: string | undefined;
+    phone!: string | undefined;
+    fax!: string | undefined;
+    receivable!: string | undefined;
+    financeCharge!: string | undefined;
+    financeRate!: number | undefined;
+    financeDays!: number | undefined;
+    stateTaxLabel!: string | undefined;
+    countyTaxLabel!: string | undefined;
+    showSplitSalesTax!: boolean | undefined;
+    cityTaxLabel!: string | undefined;
+    localTaxLabel!: string | undefined;
+    defaultWarehouse!: string | undefined;
+    clarkPartsCode!: string | undefined;
+    clarkDealerAccessCode!: string | undefined;
+    useStateTaxCodeDescription!: boolean | undefined;
+    useCountyTaxCodeDescription!: boolean | undefined;
+    useCityTaxCodeDescription!: boolean | undefined;
+    useLocalTaxCodeDescription!: boolean | undefined;
+    rentalDeliveryDefaultTime!: DateTime | undefined;
+    stateTaxCode!: string | undefined;
+    countyTaxCode!: string | undefined;
+    cityTaxCode!: string | undefined;
+    localTaxCode!: string | undefined;
+    taxCode!: string | undefined;
+    useAbsoluteTaxCodes!: boolean | undefined;
+    smallSubName!: string | undefined;
+    shopId!: string | undefined;
+    image!: string | undefined;
+    useImage!: boolean | undefined;
+    logoFile!: string | undefined;
+    vendorId!: string | undefined;
+    printFinalCc!: string | undefined;
+    printFinalBcc!: string | undefined;
+    storeName!: string | undefined;
+    creditCardAccountNo!: string | undefined;
+    tvhAccountNo!: string | undefined;
+    tvhKey!: string | undefined;
+    tvhCountryId!: number | undefined;
+    tvhWarehouseId!: number | undefined;
+    fileType!: string | undefined;
+    creatorUserName!: string | undefined;
+    creationTime!: DateTime;
+    lastModifierUserName!: string | undefined;
+    lastModificationTime!: DateTime | undefined;
+
+    constructor(data?: IUpsertBranchDto3) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.number = _data["number"];
+            this.name = _data["name"];
+            this.subName = _data["subName"];
+            this.address = _data["address"];
+            this.city = _data["city"];
+            this.state = _data["state"];
+            this.zipCode = _data["zipCode"];
+            this.country = _data["country"];
+            this.phone = _data["phone"];
+            this.fax = _data["fax"];
+            this.receivable = _data["receivable"];
+            this.financeCharge = _data["financeCharge"];
+            this.financeRate = _data["financeRate"];
+            this.financeDays = _data["financeDays"];
+            this.stateTaxLabel = _data["stateTaxLabel"];
+            this.countyTaxLabel = _data["countyTaxLabel"];
+            this.showSplitSalesTax = _data["showSplitSalesTax"];
+            this.cityTaxLabel = _data["cityTaxLabel"];
+            this.localTaxLabel = _data["localTaxLabel"];
+            this.defaultWarehouse = _data["defaultWarehouse"];
+            this.clarkPartsCode = _data["clarkPartsCode"];
+            this.clarkDealerAccessCode = _data["clarkDealerAccessCode"];
+            this.useStateTaxCodeDescription = _data["useStateTaxCodeDescription"];
+            this.useCountyTaxCodeDescription = _data["useCountyTaxCodeDescription"];
+            this.useCityTaxCodeDescription = _data["useCityTaxCodeDescription"];
+            this.useLocalTaxCodeDescription = _data["useLocalTaxCodeDescription"];
+            this.rentalDeliveryDefaultTime = _data["rentalDeliveryDefaultTime"] ? DateTime.fromISO(_data["rentalDeliveryDefaultTime"].toString()) : <any>undefined;
+            this.stateTaxCode = _data["stateTaxCode"];
+            this.countyTaxCode = _data["countyTaxCode"];
+            this.cityTaxCode = _data["cityTaxCode"];
+            this.localTaxCode = _data["localTaxCode"];
+            this.taxCode = _data["taxCode"];
+            this.useAbsoluteTaxCodes = _data["useAbsoluteTaxCodes"];
+            this.smallSubName = _data["smallSubName"];
+            this.shopId = _data["shopId"];
+            this.image = _data["image"];
+            this.useImage = _data["useImage"];
+            this.logoFile = _data["logoFile"];
+            this.vendorId = _data["vendorId"];
+            this.printFinalCc = _data["printFinalCc"];
+            this.printFinalBcc = _data["printFinalBcc"];
+            this.storeName = _data["storeName"];
+            this.creditCardAccountNo = _data["creditCardAccountNo"];
+            this.tvhAccountNo = _data["tvhAccountNo"];
+            this.tvhKey = _data["tvhKey"];
+            this.tvhCountryId = _data["tvhCountryId"];
+            this.tvhWarehouseId = _data["tvhWarehouseId"];
+            this.fileType = _data["fileType"];
+            this.creatorUserName = _data["creatorUserName"];
+            this.creationTime = _data["creationTime"] ? DateTime.fromISO(_data["creationTime"].toString()) : <any>undefined;
+            this.lastModifierUserName = _data["lastModifierUserName"];
+            this.lastModificationTime = _data["lastModificationTime"] ? DateTime.fromISO(_data["lastModificationTime"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): UpsertBranchDto3 {
+        data = typeof data === 'object' ? data : {};
+        let result = new UpsertBranchDto3();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["number"] = this.number;
+        data["name"] = this.name;
+        data["subName"] = this.subName;
+        data["address"] = this.address;
+        data["city"] = this.city;
+        data["state"] = this.state;
+        data["zipCode"] = this.zipCode;
+        data["country"] = this.country;
+        data["phone"] = this.phone;
+        data["fax"] = this.fax;
+        data["receivable"] = this.receivable;
+        data["financeCharge"] = this.financeCharge;
+        data["financeRate"] = this.financeRate;
+        data["financeDays"] = this.financeDays;
+        data["stateTaxLabel"] = this.stateTaxLabel;
+        data["countyTaxLabel"] = this.countyTaxLabel;
+        data["showSplitSalesTax"] = this.showSplitSalesTax;
+        data["cityTaxLabel"] = this.cityTaxLabel;
+        data["localTaxLabel"] = this.localTaxLabel;
+        data["defaultWarehouse"] = this.defaultWarehouse;
+        data["clarkPartsCode"] = this.clarkPartsCode;
+        data["clarkDealerAccessCode"] = this.clarkDealerAccessCode;
+        data["useStateTaxCodeDescription"] = this.useStateTaxCodeDescription;
+        data["useCountyTaxCodeDescription"] = this.useCountyTaxCodeDescription;
+        data["useCityTaxCodeDescription"] = this.useCityTaxCodeDescription;
+        data["useLocalTaxCodeDescription"] = this.useLocalTaxCodeDescription;
+        data["rentalDeliveryDefaultTime"] = this.rentalDeliveryDefaultTime ? this.rentalDeliveryDefaultTime.toString() : <any>undefined;
+        data["stateTaxCode"] = this.stateTaxCode;
+        data["countyTaxCode"] = this.countyTaxCode;
+        data["cityTaxCode"] = this.cityTaxCode;
+        data["localTaxCode"] = this.localTaxCode;
+        data["taxCode"] = this.taxCode;
+        data["useAbsoluteTaxCodes"] = this.useAbsoluteTaxCodes;
+        data["smallSubName"] = this.smallSubName;
+        data["shopId"] = this.shopId;
+        data["image"] = this.image;
+        data["useImage"] = this.useImage;
+        data["logoFile"] = this.logoFile;
+        data["vendorId"] = this.vendorId;
+        data["printFinalCc"] = this.printFinalCc;
+        data["printFinalBcc"] = this.printFinalBcc;
+        data["storeName"] = this.storeName;
+        data["creditCardAccountNo"] = this.creditCardAccountNo;
+        data["tvhAccountNo"] = this.tvhAccountNo;
+        data["tvhKey"] = this.tvhKey;
+        data["tvhCountryId"] = this.tvhCountryId;
+        data["tvhWarehouseId"] = this.tvhWarehouseId;
+        data["fileType"] = this.fileType;
+        data["creatorUserName"] = this.creatorUserName;
+        data["creationTime"] = this.creationTime ? this.creationTime.toString() : <any>undefined;
+        data["lastModifierUserName"] = this.lastModifierUserName;
+        data["lastModificationTime"] = this.lastModificationTime ? this.lastModificationTime.toString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IUpsertBranchDto3 {
+    id: number;
+    number: number;
+    name: string | undefined;
+    subName: string | undefined;
+    address: string | undefined;
+    city: string | undefined;
+    state: string | undefined;
+    zipCode: string | undefined;
+    country: string | undefined;
+    phone: string | undefined;
+    fax: string | undefined;
+    receivable: string | undefined;
+    financeCharge: string | undefined;
+    financeRate: number | undefined;
+    financeDays: number | undefined;
+    stateTaxLabel: string | undefined;
+    countyTaxLabel: string | undefined;
+    showSplitSalesTax: boolean | undefined;
+    cityTaxLabel: string | undefined;
+    localTaxLabel: string | undefined;
+    defaultWarehouse: string | undefined;
+    clarkPartsCode: string | undefined;
+    clarkDealerAccessCode: string | undefined;
+    useStateTaxCodeDescription: boolean | undefined;
+    useCountyTaxCodeDescription: boolean | undefined;
+    useCityTaxCodeDescription: boolean | undefined;
+    useLocalTaxCodeDescription: boolean | undefined;
+    rentalDeliveryDefaultTime: DateTime | undefined;
+    stateTaxCode: string | undefined;
+    countyTaxCode: string | undefined;
+    cityTaxCode: string | undefined;
+    localTaxCode: string | undefined;
+    taxCode: string | undefined;
+    useAbsoluteTaxCodes: boolean | undefined;
+    smallSubName: string | undefined;
+    shopId: string | undefined;
+    image: string | undefined;
+    useImage: boolean | undefined;
+    logoFile: string | undefined;
+    vendorId: string | undefined;
+    printFinalCc: string | undefined;
+    printFinalBcc: string | undefined;
+    storeName: string | undefined;
+    creditCardAccountNo: string | undefined;
+    tvhAccountNo: string | undefined;
+    tvhKey: string | undefined;
+    tvhCountryId: number | undefined;
+    tvhWarehouseId: number | undefined;
+    fileType: string | undefined;
+    creatorUserName: string | undefined;
+    creationTime: DateTime;
+    lastModifierUserName: string | undefined;
+    lastModificationTime: DateTime | undefined;
+}
+
 export class AdditionalData implements IAdditionalData {
     paypal!: { [key: string]: string; };
     stripe!: { [key: string]: string; };
@@ -52136,6 +58824,11 @@ export class AdditionalData implements IAdditionalData {
 export interface IAdditionalData {
     paypal: { [key: string]: string; };
     stripe: { [key: string]: string; };
+}
+
+export interface FileParameter {
+    data: any;
+    fileName: string;
 }
 
 export class ApiException extends Error {

@@ -1,12 +1,10 @@
 ﻿using System.Collections.Generic;
-using Abp.Runtime.Session;
-using Abp.Timing.Timezone;
 using SBCRM.DataExporting.Excel.NPOI;
 using SBCRM.Crm.Dtos;
 using SBCRM.Dto;
 using SBCRM.Storage;
-using System;
 using System.Linq;
+using Abp.Timing;
 
 namespace SBCRM.Crm.Exporting
 {
@@ -15,17 +13,11 @@ namespace SBCRM.Crm.Exporting
     /// </summary>
     public class OpportunitiesExcelExporter : NpoiExcelExporterBase, IOpportunitiesExcelExporter
     {
-
-        private readonly ITimeZoneConverter _timeZoneConverter;
-        private readonly IAbpSession _abpSession;
-
         /// <summary>
         /// Base constructor
         /// </summary>
         /// <param name="tempFileCacheManager"></param>
         public OpportunitiesExcelExporter(
-            ITimeZoneConverter timeZoneConverter,
-            IAbpSession abpSession,
             ITempFileCacheManager tempFileCacheManager) :
             base(tempFileCacheManager)
         {
@@ -39,12 +31,10 @@ namespace SBCRM.Crm.Exporting
         public FileDto ExportToFile(List<GetOpportunityForViewDto> opportunities)
         {
             return CreateExcelPackage(
-                "Opportunities_" + (DateTime.UtcNow.Date).ToString("MM_dd_yyyy") + ".xlsx",
+                $"Opportunities_{Clock.Now:MM_dd_yyyy}.xlsx",
                 excelPackage =>
                 {
-
                     var sheet = excelPackage.CreateSheet(L("Opportunities"));
-
                     AddHeader(
                         sheet,
                         L("Name"),
@@ -56,7 +46,6 @@ namespace SBCRM.Crm.Exporting
                         L("Branch"),
                         L("Department")
                         );
-
                     AddObjects(
                         sheet, opportunities,
                         _ => _.Opportunity.Name,

@@ -13,6 +13,7 @@ using Abp.Extensions;
 using Abp.Hangfire;
 using Abp.PlugIns;
 using Abp.Timing;
+using Azure.Storage.Blobs;
 using Castle.Facilities.Logging;
 using Castle.MicroKernel.Registration;
 using Hangfire;
@@ -33,6 +34,7 @@ using ILoggerFactory = Microsoft.Extensions.Logging.ILoggerFactory;
 using GraphQL.Server.Ui.Playground;
 using HealthChecks.UI.Client;
 using IdentityServer4.Configuration;
+using MediatR;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
@@ -45,9 +47,16 @@ using HealthChecksUISettings = HealthChecks.UI.Configuration.Settings;
 using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.EntityFrameworkCore;
 using SBCRM.Base;
+using SBCRM.Blob;
+using SBCRM.Blob.Dto;
 using SBCRM.EntityFrameworkCore.Repositories;
+using SBCRM.Infrastructure.BlobStorage;
 using SBCRM.Web.Filter;
 using SBCRM.Web.Middleware;
+using SBCRM.Infrastructure.Avalara;
+using SBCRM.Avalara;
+using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Extensions;
+using Swashbuckle.AspNetCore.JsonMultipartFormDataSupport.Integrations;
 
 namespace SBCRM.Web.Startup
 {
@@ -74,8 +83,25 @@ namespace SBCRM.Web.Startup
                 options.Filters.Add(new AbpAutoValidateAntiforgeryTokenAttribute());
             }).AddNewtonsoftJson();
 
+            services.AddMediatR(typeof(SBCRMApplicationModule).Assembly);
+
+            services.AddApplicationInsightsTelemetry();
+
+            services.AddApiVersioning();
+
             services.AddSingleton<IConfiguration>(_appConfiguration);
             services.AddSignalR();
+
+            services.AddSingleton(_ => new BlobServiceClient(_appConfiguration["AzureStorage:ConnectionString"]));
+            services.Configure<AzureStorageSettings>(_appConfiguration.GetSection("AzureStorage"));
+
+            services.AddSingleton<IBlobStorageService, AzureBlobStorageService>();
+            services.AddSingleton<IApplicationStorageService, ApplicationStorageService>();
+            services.AddJsonMultipartFormDataSupport(JsonSerializerChoice.Newtonsoft);
+
+            services.AddJsonMultipartFormDataSupport(JsonSerializerChoice.Newtonsoft);
+
+            services.AddHttpClient();
 
             //Configure CORS for angular2 UI
             services.AddCors(options =>
@@ -197,6 +223,14 @@ namespace SBCRM.Web.Startup
                     .ImplementedBy<SoftBaseCustomerInvoiceRepository>().LifestyleTransient());
 
                 options.IocManager.IocContainer.Register(
+                    Component.For<IAvalaraService>()
+                    .ImplementedBy<AvalaraService>().LifestyleTransient());
+
+                options.IocManager.IocContainer.Register(
+                    Component.For<IApCheckFormatsRepository>()
+                    .ImplementedBy<ApCheckFormatsRepository>().LifestyleTransient());
+
+                options.IocManager.IocContainer.Register(
                     Component.For<ISoftBaseCustomerEquipmentRepository>()
                         .ImplementedBy<SoftBaseCustomerEquipmentRepository>().LifestyleTransient());
 
@@ -272,7 +306,9 @@ namespace SBCRM.Web.Startup
                     Authorization = new[]
                         {new AbpHangfireAuthorizationFilter(AppPermissions.Pages_Administration_HangfireDashboard)}
                 });
+#pragma warning disable CS0618
                 app.UseHangfireServer();
+#pragma warning restore CS0618
             }
 
             if (bool.Parse(_appConfiguration["Payment:Stripe:IsActive"]))

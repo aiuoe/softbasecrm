@@ -148,6 +148,36 @@ export class AppNavigationService {
                         '',
                         '/app/admin/tenantSettings'
                     ),
+                    new AppMenuItem(
+                        'Company',
+                        '',
+                        '',
+                        '/app/main/administration/company'
+                    ),
+                    new AppMenuItem(
+                        'Department',
+                        'Pages.Administration.Tenant.Department',
+                        '',
+                        '/app/main/administration/department'
+                    ),
+                    new AppMenuItem(
+                        'Sale Codes',
+                        '',
+                        '',
+                        '/app/main/administration/saleCodes'
+                    ),
+                    new AppMenuItem(
+                        'Branch',
+                        'Pages.Branches',
+                        '',
+                        '/app/main/administration/branch'
+                    ),
+                    new AppMenuItem(
+                        'Tax Codes',
+                        '',
+                        '',
+                        '/app/main/administration/taxCodes'
+                    )
                     // new AppMenuItem(
                     //     'OrganizationUnits',
                     //     'Pages.Administration.OrganizationUnits',

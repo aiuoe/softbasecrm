@@ -27,6 +27,7 @@ using System.Threading.Tasks;
 using BaseRepo = Abp.Domain.Repositories;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
+using Abp.Timing;
 
 namespace SBCRM.Legacy
 {
@@ -460,12 +461,12 @@ namespace SBCRM.Legacy
 
             using (_reasonProvider.Use("Account created"))
             {
-                // Set internal audit fields
+                // Set legacy audit fields
                 customer.Number = (await _customerSequenceRepository.GetNextSequence()).ToString();
                 customer.BillTo = customer.Number;
                 customer.IsCreatedFromWebCrm = true;
                 customer.AddedBy = currentUser.Name;
-                customer.Added = DateTime.UtcNow;
+                customer.Added = Clock.Now;
                 await _customerRepository.InsertAsync(customer);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
 
@@ -501,12 +502,11 @@ namespace SBCRM.Legacy
         )]
         protected virtual async Task Update(CreateOrEditCustomerDto input)
         {
-            Customer customer;
             User currentUser = await GetCurrentUserAsync();
 
             // If the user only has the dynamic edit permission, then it needs to be assigned to the account.
-            customer = !UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Edit)
-                       && UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Edit__Dynamic)
+            Customer customer = !UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Edit)
+                           && UserManager.IsGranted(currentUser.Id, AppPermissions.Pages_Customer_Edit__Dynamic)
                 ? await GetCustomerAndUser(input.Number, currentUser.Id)
                 : await _customerRepository.FirstOrDefaultAsync(x => x.Number.Equals(input.Number));
 
@@ -514,9 +514,9 @@ namespace SBCRM.Legacy
 
             using (_reasonProvider.Use("Account updated"))
             {
-                // Set internal audit fields
+                // Set legacy audit fields
                 customer.ChangedBy = currentUser.Name;
-                customer.Changed = DateTime.UtcNow;
+                customer.Changed = Clock.Now;
 
                 ObjectMapper.Map(input, customer);
                 await _unitOfWorkManager.Current.SaveChangesAsync();
@@ -798,7 +798,7 @@ namespace SBCRM.Legacy
             GuardHelper.ThrowIf(input.Lead is null, new UserFriendlyException(L("CustomerNotExist")));
             GuardHelper.ThrowIf(await CheckIfExistByName(input.Lead.CompanyName), new UserFriendlyException(L("CustomerWithSameNameAlreadyExists")));
 
-            Customer customer = new Customer();
+            var customer = new Customer();
 
             AccountType defaultAccountType = await _lookupAccountTypeRepository.FirstOrDefaultAsync(x => x.Id == input.ConversionAccountTypeId);
             GuardHelper.ThrowIf(defaultAccountType == null, new UserFriendlyException(L("DefaultAccountTypeNotExist")));
@@ -819,12 +819,12 @@ namespace SBCRM.Legacy
                 customer.AccountTypeId = input.ConversionAccountTypeId;
                 customer.Terms = defaultAccountType.Description;
 
-                // Set internal audit fields
+                // Set legacy audit fields
                 customer.Number = (await _customerSequenceRepository.GetNextSequence()).ToString();
                 customer.BillTo = customer.Number;
                 customer.IsCreatedFromWebCrm = true;
                 customer.AddedBy = currentUser.Name;
-                customer.Added = DateTime.UtcNow;
+                customer.Added = Clock.Now;
 
                 customer = await _customerRepository.InsertAsync(customer);
                 await _unitOfWorkManager.Current.SaveChangesAsync();

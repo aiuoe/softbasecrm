@@ -1,0 +1,114 @@
+<div [@routerTransition]>
+    <div class="content d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Administration' | localize" [description]="'AdministrationCompanyCheckFormatSetup' | localize">
+            <div role="actions">
+                <a
+                    routerLink="/app/main/administration/company"
+                    routerLinkActive="active"
+                    ariaCurrentWhenActive="page"
+                    class="btn btn-secondary blue"
+                    id="companyCheckFormatSetupCloseBtn"
+                >
+                    {{ l('Close') }}
+                </a>
+            </div>
+        </sub-header>
+
+        <div [class]="containerClass">
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <div class="form">
+                        <form>
+                            <div class="form-body">
+                                <div class="row mb-4">
+                                    <div class="col-lg-12 text-right">
+                                        <button
+                                            class="btn btn-primary blue"
+                                            id="companyCheckFormatSetupDeleteCheckFormatBtn"
+                                        >
+                                            <i class="fa fa-times fa-lg"></i>
+                                            {{ l('DeleteCheckFormat') }}
+                                        </button>
+                                        <button
+                                            class="btn btn-primary blue"
+                                            id="companyCheckFormatSetupDuplicateFormatBtn"
+                                        >
+                                            <i class="fa fa-copy fa-lg"></i>
+                                            {{ l('DuplicateFormat') }}
+                                        </button>
+                                        <button
+                                            class="btn btn-primary blue"
+                                            id="companyCheckFormatSetupPreviewFormatBtn"
+                                            (click)="previewFormat()"
+                                        >
+                                            <i class="fa fa-eye fa-lg"></i>
+                                            {{ l('PreviewFormat') }}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-lg-4 col-sm-9">
+                                        <label for="">{{ l('CheckFormat') }}</label>
+                                        <p-dropdown
+                                            [options]="checkFormatSelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                            id="companyCheckFormatSetupCheckFormatDropdown"
+                                        ></p-dropdown>
+                                    </div>
+                                    <div class="col-lg-4 col-sm-3 mt-8">
+                                        <button class="btn btn-primary blue" id="companyCheckFormatSetupCheckBtn">
+                                            <i class="fa fa-check fa-lg"></i>
+                                        </button>
+                                        <button class="btn btn-primary blue ml-3" id="companyCheckFormatSetupImportBtn">
+                                            <i class="fa fa-file-import fa-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="row mb-4">
+                                    <div class="col-lg-2">
+                                        <label for="">{{ l('Format') }}</label>
+                                        <p-dropdown
+                                            [options]="format1SelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                            id="companyCheckFormatSetupFormat1Dropdown"
+                                        ></p-dropdown>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label for="">{{ l('Format') }}</label>
+                                        <p-dropdown
+                                            [options]="format2SelectItems"
+                                            [virtualScroll]="true"
+                                            [itemSize]="30"
+                                            [style]="{ width: '100%' }"
+                                            id="companyCheckFormatSetupFormat2Dropdown"
+                                        ></p-dropdown>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 mt-10">
+                                    <div class="col-lg-12">
+                                        <p-tabView>
+                                            <p-tabPanel [header]="l('Check')">
+                                                <checkCheckFormatSetupCompanyTab></checkCheckFormatSetupCompanyTab>
+                                            </p-tabPanel>
+                                            <p-tabPanel [header]="l('Remittance')">
+                                                <remittanceCheckFormatSetupCompanyTab></remittanceCheckFormatSetupCompanyTab>
+                                            </p-tabPanel>
+                                            <p-tabPanel [header]="l('Stub')">
+                                                <stubCheckFormatSetupCompanyTab></stubCheckFormatSetupCompanyTab>
+                                            </p-tabPanel>
+                                        </p-tabView>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <previewFormatCheckFormatSetupCompanyModal #previewFormatCheckFormatSetupCompanyModal></previewFormatCheckFormatSetupCompanyModal>
+    </div>
+</div>

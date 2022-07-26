@@ -1,0 +1,134 @@
+<div bsModal #taxCodeSearchModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="taxCodeSearchModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{ l('TaxCodeSearch') }}</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="form">
+                    <form autocomplete="off">
+                        <div class="form-body">
+                            <div class="row mb-4 align-items-end">
+                                <div class="col-lg-6">
+                                    <label for="taxCodeType">{{ l('TaxCodeType') }}</label>
+                                    <p-dropdown [options]="taxCodeTypeItems" optionLabel="description"
+                                        optionValue="type" [showClear]="true"
+                                        placeholder="{{ 'SelectTaxType' | localize }}" [virtualScroll]="true"
+                                        [itemSize]="30" [style]="{ width: '100%' }" id="taxCodeType"
+                                        [(ngModel)]="taxCodeType" name="taxCodeType"></p-dropdown>
+                                </div>
+                                <div class="col-lg-6">
+                                    <button type="submit" class="btn btn-primary blue" (click)="searchTaxCodes()">
+                                        <span>{{ l('Search') }}</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-lg-6">
+                                    <label for="PartialTaxCode">{{ l('PartialTaxCode') }}</label>
+                                    <input type="text" class="form-control" id="PartialTaxCode"
+                                        [(ngModel)]="partialTaxCode" name="partialTaxCode"
+                                        placeholder="{{ 'SearchWithThreeDot' | localize }}" />
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="ParentTaxCode">{{ l('ParentTaxCode') }}</label>
+                                    <input type="text" class="form-control" id="ParentTaxCode"
+                                        [(ngModel)]="parentTaxCode" name="parentTaxCode"
+                                        placeholder="{{ 'SearchWithThreeDot' | localize }}" />
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-lg-6">
+                                    <label for="Description">{{ l('TaxCodeDescription') }}</label>
+                                    <input type="text" class="form-control" id="Description" [(ngModel)]="description"
+                                        name="description" placeholder="{{ 'SearchWithThreeDot' | localize }}" />
+                                </div>
+                                <div class="col-lg-6">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row align-items-center">
+                    <!--<Primeng-Table-Start>-->
+                    <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable sortMode="single" (onLazyLoad)="searchTaxCodes($event)"
+                            [value]="primengTableHelper.records" responsiveLayout="scroll" rows="5" [paginator]="false"
+                            [lazy]="true" [responsive]="primengTableHelper.isResponsive" [scrollable]="true"
+                            selectionMode="single" dataKey="taxCode" [metaKeySelection]="true"
+                            [(selection)]="selectedTaxCodeData" (onRowSelect)="onRowSelect($event)"
+                            (onRowUnselect)="onRowUnselect($event)">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 5%"></th>
+                                    <th style="width: 15%" pSortableColumn="taxCode">
+                                        {{ l('TaxCode') }}
+                                        <p-sortIcon field="taxCode"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 10%" pSortableColumn="taxCodeType">
+                                        {{ l('Type') }}
+                                        <p-sortIcon field="taxCodeType"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 55%" pSortableColumn="description">
+                                        {{ l('TaxCodeDescription') }}
+                                        <p-sortIcon field="description"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 15%" pSortableColumn="parentTaxCode">
+                                        {{ l('ParentTaxCode') }}
+                                        <p-sortIcon field="parentTaxCode"></p-sortIcon>
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-record="$implicit">
+                                <tr>
+                                    <td style="width: 5%">
+                                        <p-tableRadioButton [value]="record"></p-tableRadioButton>
+                                    </td>
+                                    <td style="width: 15%">
+                                        <!-- <span class="p-column-title">{{ 'TaxCode' | localize }}</span> -->
+                                        {{ record.taxCode }}
+                                    </td>
+                                    <td style="width: 10%">
+                                        <!-- <span class="p-column-title">{{ 'TaxCodeType' | localize }}</span> -->
+                                        {{ record.taxCodeTypeId }}
+                                    </td>
+                                    <td style="width: 55%">
+                                        <!-- <span class="p-column-title">{{ 'TaxCodeDescription' | localize }}</span> -->
+                                        {{ record.description }}
+                                    </td>
+                                    <td style="width: 15%">
+                                        <!-- <span class="p-column-title">{{ 'ParentTaxCode' | localize }}</span> -->
+                                        {{ record.parentTaxCode }}
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{ 'NoData' | localize }}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator #paginator [rows]="5" (onPageChange)="searchTaxCodes($event)"
+                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                [showCurrentPageReport]="true"
+                                [currentPageReportTemplate]="'TotalRecordsCount' | localize: primengTableHelper.totalRecordsCount">
+                            </p-paginator>
+                        </div>
+                    </div>
+                    <!--<Primeng-Table-End>-->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="close()">
+                    {{ l('Close') }}
+                </button>
+                <button [disabled]="!selected" type="submit" class="btn btn-primary blue" (click)="taxCodeSelected()">
+                    <span>{{ l('Ok') }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

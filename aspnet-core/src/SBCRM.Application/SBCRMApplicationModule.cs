@@ -2,6 +2,7 @@
 using Abp.Modules;
 using Abp.Reflection.Extensions;
 using SBCRM.Authorization;
+using SBCRM.Configuration;
 
 namespace SBCRM
 {
@@ -21,6 +22,10 @@ namespace SBCRM
 
             //Adding custom AutoMapper configuration
             Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomDtoMapper.CreateMappings);
+            Configuration.Modules.AbpAutoMapper().Configurators.Add(CustomCommandMapper.CreateMappings);
+
+            //Adding Common Setting provider
+            Configuration.Settings.Providers.Add<CommonSettingProvider>();
         }
 
         public override void Initialize()

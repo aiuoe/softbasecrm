@@ -1,0 +1,101 @@
+<div class="card card-custom gutter-b">
+    <div class="card-body">
+        <div class="form">
+            <form>
+                <div class="form-body">
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('NextCustomer') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyMarketingNextCustomerInput"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('DefaultTerms') }}</label>
+                            <p-dropdown
+                                [options]="defaultTermsSelectItems"
+                                [virtualScroll]="true"
+                                [itemSize]="30"
+                                [style]="{ width: '100%' }"
+                                id="companyMarketingDefaultTermsDropdown"
+                            ></p-dropdown>
+                        </div>
+                    </div>
+                    <div class="row align-items-center form-row-header mt-15">
+                        <i class="fa fa-user"></i>
+                        {{ l('SaleGroupTitles') }}
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('NumberOne') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyMarketingNumberOneInput"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('NumberTwo') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyMarketingNumberTwoInput"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('NumberThree') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyMarketingNumberThreeInput"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('NumberFour') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyMarketingNumberFourInput"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('NumberFive') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyMarketingNumberFiveInput"
+                            />
+                        </div>
+                        <div class="col-lg-6">
+                            <label for="">{{ l('NumberSix') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyMarketingNumberSixInput"
+                            />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <label for="">{{ l('CallReportFollowupDates') }}</label>
+                            <input
+                                type="text"
+                                class="form-control"
+                                id="companyMarketingCallReportInput"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </form> 
+        </div>
+        <div class="mt-30">
+            <p class="font-italic">{{ l('ChangedBy') }}: Adam Madsen on 04/25/2022 11:00:29 PM</p>
+        </div>
+    </div>
+</div>
