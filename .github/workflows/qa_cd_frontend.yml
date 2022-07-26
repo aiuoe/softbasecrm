@@ -1,0 +1,110 @@
+name: Build and deploy Angular Frontend app to an Azure Web App
+
+on:
+  push:
+    branches:
+      - "release/qa"
+    paths:
+     - 'angular/**'
+
+env:
+  REMOTE_SERVICE_BASE_UUL: https://webcreek-v4-svc-qa.azurewebsites.net
+  REMOTE_REPORT_SERVICE_BASE_URL: https://webcreek-v4-svc-qa.azurewebsites.net
+  AZURE_WEBAPP_NAME: webcreek-v4-ui-qa
+  AZURE_WEBAPP_PACKAGE_PATH: '.'
+  NODE_VERSION: '14.17.3'
+  TARGET_ENVIRONMENT: 'QA'
+
+permissions:
+  contents: read
+
+jobs:
+
+  build:
+    runs-on: windows-latest
+    
+    defaults:
+       run:
+         working-directory: ./angular/
+      
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Update remote services in configuration
+      shell: pwsh
+      run: |
+        $jsonFile = "src/assets/appconfig.production.json"
+        $json = Get-Content $jsonFile | ConvertFrom-Json
+        $json.remoteServiceBaseUrl="${{ env.REMOTE_SERVICE_BASE_UUL }}"
+        $json.remoteReportServiceBaseUrl="${{ env.REMOTE_REPORT_SERVICE_BASE_URL }}"
+        $json | ConvertTo-Json | Out-File $jsonFile
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    
+    - name: Install Angular cli
+      run: npm install -g @angular/cli
+        
+    - name: Install dependencies
+      run: yarn
+      
+    - name: Gulp build
+      run: gulp build
+      
+    - name: Build angular application
+      run: npm run publish
+      
+    - name: Copy web.config into dist folder
+      shell: pwsh
+      run: |
+        Copy-Item -Path web.config -Destination dist
+      
+    - name: Zip dist folder
+      shell: pwsh
+      run: Compress-Archive -Path dist/* -DestinationPath release.zip
+
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v3
+      with:
+        name: node-app
+        #https://github.com/actions/upload-artifact/issues/232#issuecomment-964235360
+        path: angular/release.zip
+
+  deploy:
+    permissions:
+      contents: read
+    runs-on: windows-latest
+    needs: [build]
+    environment:
+      name: 'Development'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+
+    steps:
+      
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v3
+      with:
+        name: node-app
+      
+    - name: UNZIP dist folder
+      shell: pwsh
+      run: Expand-Archive release.zip
+      
+    - name: 'Deploy to Azure WebApp'
+      id: deploy-to-webapp 
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.QA_AZURE_WEBAPP_FRONTEND_PUBLISH_PROFILE }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/release
+        
+    - name: Google Chat Notification
+      uses: Co-qn/google-chat-notification@releases/v1
+      with:
+        name: '${{ env.TARGET_ENVIRONMENT }} Frontend deployment N°${{ github.run_number }}'
+        url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+        status: ${{ job.status }}
+      if: always()
+
